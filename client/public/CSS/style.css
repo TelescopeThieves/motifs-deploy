@@ -280,7 +280,8 @@
   }
   .indexBtns{
     display: flex;
-    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
   
   .socials{
@@ -586,7 +587,7 @@ audio{
     align-items: center;
   }
   .trackBtn{
-    width: 100%;
+    /* width: 100%; */
   }
   a{
     font-size: 1.2rem;
