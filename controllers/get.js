@@ -9,7 +9,8 @@ module.exports = {
   getIndex: async (req, res) => {
       const hello = `Hello from the Motifs server!`
     try {
-        res.json(hello)
+        // res.json(hello)
+        res.redirect('/')
     } catch (err) {
         console.log(err)
     }
