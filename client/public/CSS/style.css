@@ -1,0 +1,609 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style:none;
+    font-size: 62.5%;
+    color: rgba(23, 0, 51, 1);
+    font-family: 'Fira Sans', sans-serif;
+    scroll-behavior: smooth;
+}
+  /* font-family: 'Calistoga', cursive;
+  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif; */
+  /* FEFAE0 beige rgba(254, 250, 224,1) */
+  /* 344E41 green rgba(52,78,65,1) */
+  /* rgba(23, 0, 51, 1); - DARK BLUE */
+  /* rgba(218 172 255, 1); - HOT PINK */
+  /* rgba(7, 0, 217, 1); - BLUE */
+  /* rgb(0 51 32) - Dark Green */
+  /* rgb(229 229 255) - lite purple */
+  /* 11.089rem */
+  /* 6.854rem */
+  /* 4.236rem */
+  /* 2.618rem */
+  /* 1.618rem */
+  /* 1rem */
+  /* 0.618rem */
+  /* 0.382rem */
+  /* ..........................Modular..........................  */
+  #motifs{
+    font-family: 'Calistoga', cursive;
+    color: white;
+    font-size: 2.618rem;
+  }
+  .textFromMotifs{
+    font-family: 'Ubuntu', sans-serif;
+    font-style: italic;
+  }
+  .gradient{
+    background: white;
+    /* background: linear-gradient(90deg, rgba(226,225,255,.3) 0%, rgba(211,255,217,.3) 100%); */
+    background: linear-gradient(90deg, rgba(226,225,255,.3) 0%, rgba(226,225,255,.4) 100%);
+  }
+  .landing{
+    display: flex;
+    flex-direction: column;
+  }
+  .radius{
+    border-radius: .5rem;
+  }
+  .navigation ul{
+    margin-left: 1rem;
+  }
+  audio{
+    height: 2.618rem;
+  }
+  .margin-left{
+    margin-left: 0.618rem;
+  }
+  .margin-right{
+    margin-right: 0.618rem;
+  }
+  .margin-top{
+    margin-top: 0.618rem;
+  }
+  .margin-bottom{
+    margin-bottom: 0.618rem;
+  }
+  .margin-left2{
+    margin-left: 1rem;
+  }
+  .margin-right2{
+    margin-right: 1rem;
+  }
+  .margin-top2{
+    margin-top: 1rem;
+  }
+  .margin-bottom2{
+    margin-bottom: 1rem;
+  }
+  .margin-top3{
+    margin-top: 4.236rem;
+  }
+  .margin-top8{
+    margin-top: 8rem;
+  }
+  .padding-left{
+    padding-left: 1rem;
+  }
+  .padding-right{
+    padding-right: 1rem;
+  }
+  .padding-top{
+    padding-top: 1rem;
+  }
+  .padding-bottom{
+    padding-bottom: 1rem;
+  }
+  .padding{
+    padding: 2.618rem;
+  }
+  .padding2{
+    padding: 4.236rem;
+  }
+  .darkGrey{
+    color: rgb(27, 27, 27);
+  }
+  .bigFont{
+    font-size: 6.854rem;
+  }
+  .border-top{
+    border-top: solid 1px rgb(0 0 0 / 7%);
+  }
+  .border-bottom{
+    border-bottom: solid 1px rgb(0 0 0 / 7%);
+  }
+  .border-left{
+    border-left: solid 1px rgb(0 0 0 / 7%);
+  }
+  .border-right{
+    border-right: solid 1px rgb(0 0 0 / 7%);
+  }
+  .centerText{
+    text-align: center;
+  }
+  .flex{
+    display: flex;
+  }
+  .column{
+    flex-direction: column;
+  }
+  .row{
+    flex-direction: row;
+  }
+  .center{
+    align-items: center;
+    justify-content: center;
+  }
+  .justifySpaceBetween{
+    justify-content: space-between;
+  }
+  .alignSpaceBetween{
+    align-items: space-between;
+  }
+  .width10{
+    width: 10%;
+  }
+  .width20{
+    width: 20%;
+  }
+  .width30{
+    width: 30%;
+  }
+  .width40{
+    width: 40%;
+  }
+  .width50{
+    width: 50%;
+  }
+  .width60{
+    width: 60%;
+  }
+  .width70{
+    width: 70%;
+  }
+  .width80{
+    width: 80%;
+  }
+  .width90{
+    width: 90%;
+  }
+  .width100{
+    width: 100%;
+  }
+  .trackBtn{
+    display: flex;
+    align-items: center;
+    width: 10rem;
+    height: 3.5rem;
+    justify-content: center;
+    background: none;
+    border: solid 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 1px 1px 10px rgb(0 0 0 / 5%);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    transition: transform 600ms ease;
+  }
+
+  .trackBtn:hover, .sortSecBtn:hover, .navBtn:hover{
+    transform: scale(1.025);
+    box-shadow: 1px 1px 10px rgb(0 0 0 / 20%);
+  }
+ 
+  .trackBtns{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .sortSecBtn{
+    display: flex;
+    align-items: center;
+    width: 10rem;
+    justify-content: center;
+    background: none;
+    border: solid 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 1px 1px 10px rgb(0 0 0 / 5%);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    padding: .2rem 0;
+  }
+  /*..........................Universal..........................*/
+  a{
+    text-decoration: none;
+    font-size: 1.418rem;
+    /* color: #fff6e9; */
+  }
+  a:hover, .feedLogout:hover {
+    opacity: .5;
+    cursor: pointer;
+  }
+  .subLogout:hover{
+    background: rgb(255, 61, 35);
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    cursor: pointer;
+
+  }
+  li{
+    list-style: none;
+  }
+  h1{
+    color: #fff6e9;
+    font-size: 2.618rem;
+    font-weight: 700;
+  }
+  h2{
+    font-size: 1.618rem;
+    opacity: .9;
+    /* margin-bottom: 2.618rem; */
+    font-weight: 400;
+  }
+  i{
+    font-size: 2rem;
+  }
+  p, input, textarea{
+    font-size: 1.418rem;
+    /* background: white; */
+  }
+  span{
+    font-size: 1.218rem;
+  }
+  /* ..........................Modular Layout..........................  */
+  
+  /* ..........................NAV */
+  nav{
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 100vh;
+    /* width: 100%; */
+    z-index: 1000;
+    /* background: rgb(41, 41, 41); */
+  }
+  .navigation{
+    display: flex;
+  }
+  .homeAndLogOut{
+    display: flex;
+    align-items: center;
+  }
+  #homeBtn path{
+    color: #fff6e9;
+  }
+  ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .indexBtns{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .socials{
+    display: flex;
+    align-items: center;
+  }
+  .trackInfo{
+    text-align: end;
+  }
+  .audioAndArt{
+    display: flex;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.5);
+    /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2); */
+    box-shadow: .5px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin: 1rem 0;
+    align-items: stretch;
+  }
+  .artSec{
+    text-align: center;
+  }
+  .audioSec{
+    height: auto;
+    width: 80%;
+    padding: 2.618rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .audioAndArt img{
+    width: 10rem;
+  }
+  .singlePostSec{
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+  }
+  .audioAndArt.singlePostSec .artSec{
+    width: 25%;
+  }
+  .audioAndArt.singlePostSec .trackBtns{
+    margin-top: 2.618rem;
+    justify-content: center;
+  }
+  
+  .stream{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 6rem; */
+    margin-bottom: 2rem;
+    width: 80%;
+  }
+  .loginForm{
+    width: 50%;
+  }
+  .index{
+    /* margin-top: 8rem; */
+    margin-bottom: 0;
+  }
+  .caption{
+    width: 90%;
+  }
+  .followBlock{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    text-align: center;
+
+  }
+  .sortBtn{
+    width: 10rem;
+  }
+  /* ............................................forms */
+  .formHead{
+    width: 100%;
+    background: rgba(23, 0, 51, 1);
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+  .formHead h1{
+    color: white;
+  }
+  .stream.profileStream{
+    margin-top: 1rem;
+    margin-bottom: 2.618rem;
+  }
+  .stream.signupStream, .stream.loginStream{
+    margin-top: 0;
+    left: 5%;
+    width: 90%;
+    position: relative;
+  }
+  .stream.artUploadStream{
+    width: 50%;
+  }
+  .stream.streamUpload{
+    width: 50%;
+  }
+  .uploadForm{
+    width: 100%;
+  }
+  /* ..........................................uploads */
+  label{
+    font-size: 1.618rem;
+  }
+  .postField{
+    display: flex;
+    flex-direction: column;
+  }
+  .field50{
+    justify-content: space-between;
+  }
+  .field50 .postField{
+    width: 49%;
+  }
+  .postField input, .postField textarea{
+    background: none;
+    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+  }
+  input.chooseFile{
+    border: none;
+    font-size: 1.2rem;
+  }
+  /* ..........................................signup */
+  .passwordField{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .passwordField div{
+    width: 49%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  /* ..........................Landing Layout..........................  */
+  .landing, .profileLanding{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sortSec{
+    width: 80%;
+    display: flex;
+    align-items: center;
+  }
+  .sortSec > .formBtn{
+      display: flex;
+  }
+  .isFollow{
+    width: 90%;
+    margin-top: 8rem;
+    z-index: 1000;
+  }
+  .profileLanding{
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 4rem;
+    /* align-items: stretch; */
+  }
+  .profileHead{
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+  }
+  .profileSec{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: .5px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .profileNav{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    width: 24%;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: .5px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .motifsHead{
+    border-bottom: solid 1px rgb(0 0 0 / 7%);
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(23, 0, 51, 1);
+    /* background: linear-gradient(90deg, rgba(23, 0, 51, .7) 0%, rgba(23, 0, 51, .9) 100%); */
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+  .subNav{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .motifsHead h2{
+    color: white;
+  }
+  .profileImg{
+    width: 100%;
+  }
+  .imgBox{
+    border-bottom: solid 1px rgb(0 0 0 / 7%);
+    display: flex;
+    align-items: center;
+  }
+  .imgBox h1{
+    color: rgba(23, 0, 51, 1);
+  }
+  .imgBoxImage {
+    width: 30%;
+    /* border-right: solid 1px rgb(0 0 0 / 7%); */
+  }
+  .artistNameDiv{
+    width: 70%;
+  }
+  .profileSec img{
+    width: 100%;
+    border-radius: 100%;
+  }
+  /* .profileSec:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  } */
+  .followerSec{
+    gap: 1rem;
+    width: 100%;
+  }
+  .userInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    border-right: solid 1px rgb(0 0 0 / 7%);
+  }
+  /* ..........................Feed Layout..........................  */
+audio{
+  width: 100%;
+}
+
+
+/* ..........................SVGs..........................  */
+.fill-red{
+  /* fill: rgba(226,225,255,1); */
+  fill: red;
+}
+.clicked{
+  background: rgba(226,225,255,1);
+}
+
+/* media queries */
+@media (max-width: 1000px){
+  .padding{
+    padding: 1.618rem;
+  }
+  .artSec{
+    width: 50%;
+  }
+  .audioSec{
+    width: 80%;
+    padding: 1.618rem;
+  }
+  .trackBtn{
+    width: 6.5rem;
+  }
+  .hidden{
+    display: none;
+  }
+  .loginForm{
+    width: 60%;
+  }
+}
+
+@media (max-width: 800px){
+  .audioAndArt{
+    flex-direction: column;
+    align-items: center;
+  }
+  .audioSec{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .trackBtn{
+    width: 100%;
+  }
+  a{
+    font-size: 1.2rem;
+  }
+  .loginForm{
+    width: 70%;
+  }
+
+}
+@media (max-width: 500px){
+ h2{
+   font-size: 1.218rem;
+ }
+ .sortSec{
+  width: 100%;
+}
+.loginForm{
+  width: 85%;
+}
+}
