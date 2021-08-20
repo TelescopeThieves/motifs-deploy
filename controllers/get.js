@@ -6,15 +6,15 @@ const fs = require('fs')
 
 module.exports = {
     
-  getIndex: async (req, res) => {
-      const hello = `Hello from the Motifs server!`
-    try {
-        // res.json(hello)
-        res.redirect('/')
-    } catch (err) {
-        console.log(err)
-    }
-  },
+  // getIndex: async (req, res) => {
+  //     const hello = `Hello from the Motifs server!`
+  //   try {
+  //       res.json(hello)
+  //       // res.redirect('/')
+  //   } catch (err) {
+  //       console.log(err)
+  //   }
+  // },
   getAll: async (req, res) => {
     try {
         // const user = await User.find({_id: req.user._id}) 

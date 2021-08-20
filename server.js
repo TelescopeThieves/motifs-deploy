@@ -69,10 +69,7 @@ app.use('/', mainRoutes)
 app.use('/post', postRoutes) 
 app.use('/auth', authRoutes)
 
-// app.use(express.static(path.join(__dirname, '../build')))
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../build'))
-// })
+
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static(path.join(__dirname, '/client/build')))
 

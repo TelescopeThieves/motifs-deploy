@@ -7,7 +7,7 @@ const authJwt = require("../middleware/authJwt");
 
 
 
-router.get('/', getController.getIndex)
+// router.get('/', getController.getIndex)
 router.get('/all', getController.getAll)
 router.get('/feed', authJwt, getController.getFeed)
 router.get('/followingFeed', authJwt, getController.getFollowingFeed)
