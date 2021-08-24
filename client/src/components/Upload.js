@@ -103,7 +103,7 @@ const Upload = () => {
     }
     
     return (
-        <div>
+        <div className='window'>
             <NavSide />    
             <div className="gradient landing">
                 
