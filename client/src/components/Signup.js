@@ -75,7 +75,7 @@ const Signup = () => {
 
             <div className="gradient landing">
     
-                <div className="stream audioAndArt index radius">
+                <div className="stream2 audioAndArt index radius">
                     <div className='formHead padding'>
                         <h1 className="darkGrey margin-top2">Create an account</h1>
                     </div>

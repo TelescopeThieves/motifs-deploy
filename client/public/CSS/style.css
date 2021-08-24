@@ -36,9 +36,16 @@
     font-family: 'Ubuntu', sans-serif;
     font-style: italic;
   }
+  .navigation{
+    display: flex;
+    width: 6%;
+  }
   .gradient{
-    background: white;
-    /* background: linear-gradient(90deg, rgba(226,225,255,.3) 0%, rgba(211,255,217,.3) 100%); */
+    width: 94%;
+    left: 6%;
+    position: relative;
+  }
+  .window{
     background: linear-gradient(90deg, rgba(226,225,255,.3) 0%, rgba(226,225,255,.4) 100%);
   }
   .landing{
@@ -136,6 +143,9 @@
     align-items: center;
     justify-content: center;
   }
+  .alignCenter{
+    align-items: center;
+  }
   .justifySpaceBetween{
     justify-content: space-between;
   }
@@ -177,12 +187,12 @@
     align-items: center;
     width: 10rem;
     height: 3.5rem;
+    font-size: 1.2rem;
     justify-content: center;
     background: none;
     border: solid 1px rgba(0, 0, 0, 0.15);
     box-shadow: 1px 1px 10px rgb(0 0 0 / 5%);
     border-radius: 4px;
-    font-size: 1.2rem;
     transition: transform 600ms ease;
   }
 
@@ -194,8 +204,13 @@
   .trackBtns{
     position: relative;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
+    width: 100%;
+    margin-top: 1.618rem;
+  }
+  .audioBarDiv{
+    margin-top: 1.618rem;
   }
   .sortSecBtn{
     display: flex;
@@ -263,9 +278,6 @@
     z-index: 1000;
     /* background: rgb(41, 41, 41); */
   }
-  .navigation{
-    display: flex;
-  }
   .homeAndLogOut{
     display: flex;
     align-items: center;
@@ -289,11 +301,11 @@
     align-items: center;
   }
   .trackInfo{
-    text-align: end;
+    width: 100%;
   }
   .audioAndArt{
     display: flex;
-    width: 80%;
+    width: 90%;
     background: rgba(255, 255, 255, 0.5);
     /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2); */
     box-shadow: .5px 1px 1px 1px rgba(0, 0, 0, 0.2);
@@ -303,7 +315,10 @@
     align-items: stretch;
   }
   .artSec{
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
   }
   .audioSec{
     height: auto;
@@ -314,12 +329,12 @@
     justify-content: space-between;
   }
   .audioAndArt img{
-    width: 10rem;
+    width: 100%;
   }
   .singlePostSec{
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 90%;
   }
   .audioAndArt.singlePostSec .artSec{
     width: 25%;
@@ -334,7 +349,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* margin-top: 6rem; */
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+  .stream2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 2rem;
     width: 80%;
   }
@@ -433,9 +455,9 @@
     align-items: center;
   }
   .sortSec{
-    width: 80%;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
   .sortSec > .formBtn{
       display: flex;
@@ -456,7 +478,7 @@
     align-items: stretch;
     flex-direction: column;
     justify-content: space-between;
-    width: 80%;
+    width: 90%;
   }
   .profileSec{
     display: flex;
@@ -559,52 +581,134 @@ audio{
     padding: 1.618rem;
   }
   .artSec{
-    width: 50%;
+    width: 20%;
   }
   .audioSec{
     width: 80%;
     padding: 1.618rem;
   }
-  .trackBtn{
-    width: 6.5rem;
-  }
-  .hidden{
-    display: none;
-  }
   .loginForm{
     width: 60%;
   }
+
 }
 
 @media (max-width: 800px){
-  .audioAndArt{
-    flex-direction: column;
-    align-items: center;
-  }
-  .audioSec{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .trackBtn{
-    /* width: 100%; */
-  }
   a{
     font-size: 1.2rem;
   }
   .loginForm{
     width: 70%;
   }
+  .trackBtns{
+    justify-content: space-between;
+  }
+  .trackBtn, .sortSecBtn{
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+  }
+  .hidden{
+    display: none;
+  }
+  svg{
+    padding: .2rem;
+  }
+  span{
+    font-size: 1rem;
+  }
+}
+@media (max-width: 700px) {
+  .trackBtn, .sortSecBtn{
+    width: 9rem;
+    height: 3rem;
+    font-size: 1rem;
+  }
+}
+@media (max-width: 650px){
+.trackInfo{
+  text-align: center;
+}
+.audioAndArt{
+  flex-direction: column;
+}
+.artSec{
+  width: 100%;
+}
+.audioSec{
+  width: 100%;
+}
+.trackBtn, .sortSecBtn{
+  width: 10rem;
+  height: 3rem;
+  font-size: 1rem;
+}
+.navigation{
+  width: 10%;
+}
+.gradient{
+  width: 90%;
+  left: 10%;
+}
 
 }
-@media (max-width: 500px){
+@media (max-width: 560px){
+ .trackBtn, .sortSecBtn{
+  width: 9rem;
+  height: 3rem;
+  font-size: 1rem;
+}
+}
+@media (max-width: 510px){
  h2{
    font-size: 1.218rem;
  }
- .sortSec{
-  width: 100%;
+ .trackBtn, .sortSecBtn{
+  width: 8rem;
+  height: 3rem;
+  font-size: 1rem;
 }
-.loginForm{
-  width: 85%;
 }
+@media (max-width: 470px){
+ .trackBtn, .sortSecBtn{
+  width: 7rem;
+  height: 3rem;
+  font-size: 1rem;
+  }
+
+}
+@media (max-width: 430px){
+ .trackBtn, .sortSecBtn{
+  width: 6rem;
+  height: 3rem;
+  font-size: 1rem;
+  }
+  .navigation{
+    width: 15%;
+  }
+  .gradient{
+    width: 85%;
+    left: 15%;
+  }
+}
+@media (max-width: 380px){
+ .trackBtn, .sortSecBtn{
+  width: 5.5rem;
+  height: 3rem;
+  font-size: 1rem;
+  }
+}
+@media (max-width: 355px){
+ .trackBtn, .sortSecBtn{
+  width: 4.5rem;
+  height: 3rem;
+  font-size: 1rem;
+  }
+}
+@media (max-width: 310px){
+ .trackBtn, .sortSecBtn{
+  width: 4rem;
+  height: 3rem;
+  font-size: 1rem;
+  }
 }

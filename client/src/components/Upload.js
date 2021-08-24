@@ -107,7 +107,7 @@ const Upload = () => {
             <NavSide />    
             <div className="gradient landing">
                 
-                <div className="stream audioAndArt index radius">
+                <div className="stream2 audioAndArt index radius">
     
                     <div className="formHead padding">
                         <h1>Upload a track!</h1>

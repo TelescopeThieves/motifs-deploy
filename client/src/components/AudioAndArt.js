@@ -8,7 +8,10 @@ const AudioAndArt = (props) => {
         
 <div className="audioAndArt radius">
 
-        <ArtSec     imgLink={props.imgLink}/>
+        <ArtSec     imgLink={props.imgLink}
+                    artist={props.artist}
+                    title={props.title}
+                    />
         <AudioSec   
                     audioSrc={props.audioSrc}
                     artist={props.artist}

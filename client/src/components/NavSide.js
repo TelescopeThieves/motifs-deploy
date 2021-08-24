@@ -36,7 +36,7 @@ const NavSide = () => {
 
     return (
         <nav className='navigation padding-top padding-bottom border-right flex column'>
-                <div>
+                <div className='width100'>
                     <Link to='/'>
                         <div className='flex column center padding-bottom padding-left padding-right border-bottom feedLogout'>
                             <Planet size={24} />

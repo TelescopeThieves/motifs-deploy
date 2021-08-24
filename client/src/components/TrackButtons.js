@@ -54,7 +54,7 @@ const TrackButtons = (props) => {
        
         return(
             <div className='trackBtns'>
-                <div className='formBtn margin-left'>
+                <div className='formBtn'>
     
                     <button className={bookState ? "trackBtn clicked" : 'trackBtn'}
                             onClick={() => toggleBookmark()}
@@ -96,15 +96,17 @@ const TrackButtons = (props) => {
                             />
                 </div> */}
     
-    
+                {!canDelete &&
+                
                 <div className='formBtn margin-left'>
                     <Button 
                             classes="trackBtn" 
-                            svg={<User size={24}/>} 
+                            // svg={<User size={24}/>} 
                             name="Profile"
                             link={`/profileOfArtist/${props.userWhoCreatedPost}`}
                             />
                 </div>
+                }
                 {canDelete &&
                 <form className='formBtn margin-left'
                             >

@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Heart} from "phosphor-react";
+import { Heart, User} from "phosphor-react";
 
 
 const SortSec = (props) => {
@@ -18,7 +18,8 @@ const SortSec = (props) => {
                         <Heart size={24} weight='regular' color={props.sortColor}/>
                     </button>      
                     <button className={props.sortClassFollow} onClick={props.onClickFollow}>
-                        <span className="margin-top margin-bottom sortBtn">Following</span>
+                        {/* <span className="margin-top margin-bottom sortBtn">Following</span> */}
+                        <User size={24} weight='regular'/>
                     </button>      
             </section>
         </div>

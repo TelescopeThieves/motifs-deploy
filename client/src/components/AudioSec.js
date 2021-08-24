@@ -8,11 +8,15 @@ const AudioSec = (props) => {
         
         <div className="audioSec">
             <div className='trackInfo margin-bottom'>
-                <Link to={`/singlePost/${props.id}`}><h2>{`${props.artist} - ${props.title}`}</h2></Link>
+                <Link to={`/profileOfArtist/${props.userWhoCreatedPost}`}>
+                    <h2>{`${props.artist} - ${props.title}`}</h2>
+                    </Link>
             </div>
-            <audio controls preload="none" type='audio/mpeg'>
-                <source src={props.audioSrc}></source>
-            </audio>
+            <div className='width100 audioBarDiv'>
+                <audio controls preload="none" type='audio/mpeg'>
+                    <source src={props.audioSrc}></source>
+                </audio>
+            </div>
             <TrackButtons 
                         id={props.id} 
                         cashAppLink={props.cashAppLink}

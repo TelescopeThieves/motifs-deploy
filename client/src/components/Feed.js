@@ -103,12 +103,12 @@ const Feed = () => {
         )
     }
     return(
-        <div className=''>
+        <div className='window'>
             <NavSide />
             <div className='gradient landing'>
-                <div className='stream padding2 radius'>
-                    <div className='flex width100'>
-                        <div className='width10 flex center'>
+                <div className='stream padding radius'>
+                    <div className='flex width90 justifySpaceBetween'>
+                        <div className='width10 flex alignCenter'>
                             <span>Sort by:</span>
                         </div>
                         <SortSec 
