@@ -61,7 +61,7 @@ useEffect(() => {
     }
 
     return(
-        <div>
+        <div className='window'>
             <NavSide />
             <div className='gradient landing'>
         

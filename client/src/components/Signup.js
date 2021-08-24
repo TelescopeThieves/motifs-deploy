@@ -70,7 +70,7 @@ const Signup = () => {
         )
     }else{
         return(
-        <div>
+        <div className='window'>
             <NavSidePublic />
 
             <div className="gradient landing">

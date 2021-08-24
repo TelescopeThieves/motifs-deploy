@@ -55,7 +55,7 @@ if(redirect){
 } else{
 
     return (
-        <div>
+        <div className='window'>
             <NavSidePublic />
             <div className="gradient landing">
                 <div className="stream audioAndArt index radius loginForm">
