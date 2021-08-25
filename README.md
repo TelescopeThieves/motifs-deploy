@@ -20,7 +20,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]]https://github.com/TelescopeThieves/motifs-deploy/graphs/contributors
+![Contributors][contributors-shield]https://github.com/TelescopeThieves/motifs-deploy/graphs/contributors
 [![Forks][forks-shield]]https://github.com/TelescopeThieves/motifs-deploy/network/members
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
