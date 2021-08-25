@@ -7,7 +7,7 @@
 ***
 ***
 *** To avoid retyping too much info. Do a search and replace for the following:
-*** github_username, repo_name, twitter_handle, email, project_title, project_description
+*** TelescopeThieves, repo_name, twitter_handle, email, project_title, project_description
 -->
 
 
@@ -92,7 +92,7 @@
 
 <!-- Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description` -->
+`TelescopeThieves`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description` -->
 
 
 ### Built With
@@ -190,15 +190,15 @@ Project Link: [https://github.com/TelescopeThieves/motifs-deploy](https://github
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/TelescopeThieves/repo.svg?style=for-the-badge
 [contributors-url]: https://github.com/TelescopeThieves/motifs-deploy/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/TelescopeThieves/repo.svg?style=for-the-badge
 [forks-url]: https://github.com/TelescopeThieves/motifs-deploy/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[stars-shield]: https://img.shields.io/github/stars/TelescopeThieves/repo.svg?style=for-the-badge
+[stars-url]: https://github.com/TelescopeThieves/repo_name/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TelescopeThieves/repo.svg?style=for-the-badge
+[issues-url]: https://github.com/TelescopeThieves/repo_name/issues
+[license-shield]: https://img.shields.io/github/license/TelescopeThieves/repo.svg?style=for-the-badge
+[license-url]: https://github.com/TelescopeThieves/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/github_username
+[linkedin-url]: https://www.linkedin.com/in/mario-de-los-santos-dev/
