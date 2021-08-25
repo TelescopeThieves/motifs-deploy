@@ -86,7 +86,7 @@
 ## About The Project
 
 
-[![Motifs Screen Shot](https://res.cloudinary.com/drs4pvb1e/image/upload/v1629486315/Portfolio/Screen_Shot_2021-08-20_at_3.04.32_PM_cfv5wk.png)]
+![Motifs Screen Shot](https://res.cloudinary.com/drs4pvb1e/image/upload/v1629486315/Portfolio/Screen_Shot_2021-08-20_at_3.04.32_PM_cfv5wk.png)
 
 
 
