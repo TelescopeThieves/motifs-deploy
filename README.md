@@ -103,7 +103,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-* Install NodeJS
+* [Install NodeJS](https://nodejs.org/en/download/package-manager/)
 * Install npm
   ```sh
   npm install npm@latest -g
