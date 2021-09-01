@@ -177,7 +177,7 @@ Project Link: [https://github.com/TelescopeThieves/motifs-deploy](https://github
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/TelescopeThieves/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/TelescopeThieves/motifs-deploy.svg?style=for-the-badge
 [contributors-url]: https://github.com/TelescopeThieves/motifs-deploy/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/TelescopeThieves/repo.svg?style=for-the-badge
 [forks-url]: https://github.com/TelescopeThieves/motifs-deploy/network/members
