@@ -75,7 +75,7 @@
 
 ![Motifs Screen Shot](https://res.cloudinary.com/drs4pvb1e/image/upload/v1629486315/Portfolio/Screen_Shot_2021-08-20_at_3.04.32_PM_cfv5wk.png)
 
-
+Motifs is a web application where musicians can post ephemeral music. Posts on Motifs are automatically deleted within 24 hours of creation. Users are allowed to bookmark posts while they’re still live and follow their favorite creators. Options for permanent uploads and in app music purchasing is in the works.
 
 <!-- Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
