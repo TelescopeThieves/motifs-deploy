@@ -190,7 +190,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@TelescpeThieves](https://twitter.com/TelescpeThieves) - mario.jdls@gmail.com
+Twitter - [@TelescpeThieves](https://twitter.com/TelescpeThieves) 
+Email - mario.jdls@gmail.com
 
 Project Link: [https://github.com/TelescopeThieves/motifs-deploy](https://github.com/TelescopeThieves/motifs-deploy)
 
