@@ -103,7 +103,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+
 * npm
   ```sh
   npm install npm@latest -g
@@ -119,6 +119,19 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm install
    ```
+3. Create a Cloudinary account
+4. Create a mongoDb account and create a new cluster
+5. Navigate to the config folder and create a .env file with the following variables:
+```sh
+PORT = 5000
+CLOUD_NAME = Your cloudinary cloud name
+API_KEY = Your cloudinary API key
+API_SECRET = Your cloudinary API secret
+DB_STRING = Your mongoDb cluster connection string
+ACCESS_TOKEN_SECRET = An access token secret of your choice
+REFRESH_TOKEN_SECRET = A refresg token secret of your choice
+NODE_ENV=developement
+```
 
 
 
