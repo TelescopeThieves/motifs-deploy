@@ -115,15 +115,17 @@ To get a local copy up and running follow these simple steps.
    ```sh
    git clone https://github.com/TelescopeThieves/motifs-deploy.git
    ```
-2. Install Server-Side NPM packages: From project's root folder on the terminal run
+2. Install Server-Side NPM packages: 
+From project's root folder on the terminal run
    ```sh
    npm install
    ```
-3. Install Client-Side NPM packages: From project's client folder on the terminal run
+3. Install Client-Side NPM packages: 
+From project's client folder on the terminal run
    ```sh
    npm install
    ```
-4. Create a Cloudinary account. In your Account Detials you will find your Cloudinary cloud name, API Key and API secret.
+4. Create a Cloudinary account. In your Account Details you will find your Cloudinary cloud name, API Key and API secret.
 5. Create a mongoDb account and create a new cluster. Here's a [youTube video if you need help](https://www.youtube.com/watch?v=esKNjzDZItQ).
 6. Navigate to the config folder and create a .env file with the following variables:
 ```sh
