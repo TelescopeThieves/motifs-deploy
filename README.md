@@ -120,7 +120,7 @@ CD into your project's root folder on the terminal and run
    ```sh
    npm install
    ```
-CD into your project's client folder on the terminal and run
+   CD into your project's client folder on the terminal and run
   ```sh
    npm install
 ```  
