@@ -141,7 +141,7 @@ API_SECRET = Your cloudinary API secret
 DB_STRING = Your mongoDb cluster connection string
 ACCESS_TOKEN_SECRET = A password of your choice
 REFRESH_TOKEN_SECRET = A password of your choice
-NODE_ENV=developement
+NODE_ENV=development
 ```
 7. CD into the root folder from the terminal and run
    ```sh
