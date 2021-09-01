@@ -121,8 +121,9 @@ CD into your project's root folder on the terminal and run
    npm install
    ```
 CD into your project's client folder on the terminal and run
-     ```sh
-   npm install```
+  ```sh
+   npm install
+```  
 3. Create a Cloudinary account. In your Account Detials you will find your Cloudinary cloud name, API Key and API secret.
 4. Create a mongoDb account and create a new cluster. Here's a [youTube video if you need help](https://www.youtube.com/watch?v=esKNjzDZItQ).
 5. Navigate to the config folder and create a .env file with the following variables:
