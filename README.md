@@ -115,11 +115,11 @@ To get a local copy up and running follow these simple steps.
    ```sh
    git clone https://github.com/TelescopeThieves/motifs-deploy.git
    ```
-2. Install NPM packages: From project's root folder on the terminal run
+2. Install Server-Side NPM packages: From project's root folder on the terminal run
    ```sh
    npm install
    ```
-3. Install NPM packages: From project's client folder on the terminal run
+3. Install Client-Side NPM packages: From project's client folder on the terminal run
    ```sh
    npm install
    ```
