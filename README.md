@@ -75,7 +75,7 @@
 ## About The Project
 
 Motifs is a web application where musicians can post ephemeral music. Posts on Motifs are automatically deleted within 24 hours of creation. Users are allowed to bookmark posts while they’re still live and follow their favorite creators. Options for permanent uploads and in app music purchasing is in the works.
-<br>
+<br/>
 Like counts and play counts are kept hidden to create an enviroment that is more focused on the music than the metrics. We believe musicians shouldn't judge the worth of their art via numbers and graphs!
 
 ![Motifs Screen Shot](https://res.cloudinary.com/drs4pvb1e/image/upload/v1629486315/Portfolio/Screen_Shot_2021-08-20_at_3.04.32_PM_cfv5wk.png)
