@@ -120,7 +120,7 @@ To get a local copy up and running follow these simple steps.
    npm install
    ```
 3. Create a Cloudinary account
-4. Create a mongoDb account and create a new cluster
+4. Create a mongoDb account and create a new cluster. Here's a [youTube video if you need help](https://www.youtube.com/watch?v=esKNjzDZItQ).
 5. Navigate to the config folder and create a .env file with the following variables:
 ```sh
 PORT = 5000
