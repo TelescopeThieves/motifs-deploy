@@ -24,9 +24,9 @@ const SinglePost = () => {
                 setSinglePostValues({
                     'artist': data.artist[0],
                     'post': data.post[0],
-                    'currentUser': data.user,
-                    'isBookmarked': data.user.bookmarks.includes(data.post[0]._id),
-                    'isFollowed': data.user.following.includes(data.artist[0]._id)
+                    'loggedInUser': data.user,
+                    'isBookmarked': data.user.bookmarks[data.post[0]._id],
+                    'isFollowed': data.user.following[data.artist[0]._id]
                 })
                 setIsLoading(false)
             })

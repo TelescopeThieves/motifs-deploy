@@ -69,11 +69,13 @@ module.exports = {
   getFollowing: async (req, res) => {
       try {
           const user = req.user
-          const followers = await Promise.all(user.following.map(async (follower) => {
-                const following = await User.find({_id: follower})
-                return following[0]
-          }))
-          res.json({ followers, user }) 
+          const following = req.user.following
+          const artistsUserFollows = []
+          for(const artist in following){
+              const artistInFollowing = await User.findById({_id: artist})
+              artistsUserFollows.push(artistInFollowing)
+          }
+          res.json({ artistsUserFollows, user }) 
         } catch (err) {
           console.log(err)
         }
@@ -104,10 +106,14 @@ module.exports = {
   getFollowingFeed: async (req, res) => {
     try {
         const user = req.user
-        const posts = await Promise.all(user.following.map(async (follow) => {
-            const followingPost = await Post.find({user: follow})
-            return followingPost[0]
-      }))
+        const following = user.following
+        const posts = []
+        for(const artist in following){
+          if(following[artist]){
+            const postByArtistUserFollows = await Post.find({user: artist})
+            posts.push(postByArtistUserFollows[0])
+          }
+        }
       res.json({posts, user})
     } catch (err) {
       console.log(err)
@@ -115,12 +121,16 @@ module.exports = {
   },
   getLibrary: async (req, res) => {
     try {
-        const user = req.user
-        const posts = await Promise.all(user.bookmarks.map(async (bookmark) => {
-                const bookmarkedPost = await Post.find({_id: bookmark})
-                return bookmarkedPost[0]
-            }))
-    res.json({posts, user})
+      const user = req.user
+      const bookmarks = req.user.bookmarks
+      const posts = []
+      for(const bookmark in bookmarks){
+        if(bookmarks[bookmark]){
+          const bookmarkedPost = await Post.find({_id: bookmark})
+          posts.push(bookmarkedPost[0]) 
+        }
+      }
+      res.json({posts, user})
     } catch (err) {
       console.log(err)
     }

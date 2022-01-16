@@ -12,16 +12,16 @@ const UserSchema = new mongoose.Schema({
   avatar: String,
   refreshtoken: String,
   bookmarks: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   followers: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   following: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   }
 });
 
@@ -36,7 +36,7 @@ UserSchema.pre("save", function save(next) {
     if (err) {
       return next(err);
     }
-    bcrypt.hash(user.password, salt, (err, hash) => {
+  bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) {
         return next(err);
       }

@@ -35,7 +35,7 @@ useEffect(() => {
                 posts: data.posts,
                 currentUser: data.user,
                 artist: data.artist[0],
-                following: data.user.following.includes(artist._id)
+                following: data.user.following[artist._id]
             })
             setIsLoading(false)
         })
@@ -89,11 +89,11 @@ useEffect(() => {
                             <div className='flex width60'>
                                 <div className='flex column center padding border-right width50'>
                                     <h2 className='margin-bottom'>Followers:</h2>
-                                    <span className=''>{artist.followers.length}</span>
+                                    <span className=''>{Object.keys(artist.followers).length}</span>
                                 </div>
                                 <div className='flex column center padding width50'>
                                     <h2 className='margin-bottom'>Following:</h2>
-                                    <span>{artist.following.length}</span>
+                                    <span>{Object.keys(artist.following).length}</span>
                                 </div>
                             </div>
                             <div className='padding flex column center border-left width30'>
@@ -125,7 +125,7 @@ useEffect(() => {
                                             cashAppLink={post.cashAppLink}
                                             loggedInUser={loggedInUser}
                                             loggedInUserId={loggedInUser._id}
-                                            followCheck={loggedInUser.following.includes(post.user)}
+                                            followCheck={loggedInUser.following[post.user]}
                                 />
                     })}
             </div>

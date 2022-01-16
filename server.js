@@ -1,7 +1,7 @@
+// const mongoose = require('mongoose')
+// const passport = require('passport')
 const express = require('express')
-const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo')
-const passport = require('passport')
 const session = require('express-session')
 const methodOverride = require("method-override");
 const logger = require('morgan')
@@ -15,7 +15,7 @@ const path = require('path')
 
 require('dotenv').config({path: './config/.env'})
 
-require("./config/passport")(passport);
+// require("./config/passport")(passport);
 
 // connect to mongo DB
 const connectDB = require('./config/database')
@@ -36,8 +36,6 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }))
-// app.options('*', cors())
-
 app.use(function(req, res, next) {
   res.header(
     "Access-Control-Allow-Headers",
@@ -58,8 +56,8 @@ app.use(
 
 
 // Passport middleware
-app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.initialize())
+// app.use(passport.session())
 
 //Use forms for put / delete
 app.use(methodOverride("_method"));

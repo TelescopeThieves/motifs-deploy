@@ -46,16 +46,18 @@ module.exports = {
           })
           // delete post from mongoDB
           await Post.findOneAndDelete({ _id: String(postId)})
-          // delete the post from user bookmarks
+          
+          // delete the post from all user bookmarks
           const users = await User.find()
           await users.forEach( async (user) => {
-            if(user.bookmarks.includes(postId)){
-              await User.findByIdAndUpdate(
-                  {_id: user._id},
-                  {
-                    $pull: {bookmarks: String(postId)}
-                  }
-                  )
+            
+            const bookmarks = user.bookmarks
+            
+            if(bookmarks[postId]){
+
+              delete bookmarks.postId
+              
+              await User.findByIdAndUpdate({_id: user._id},{ bookmarks: bookmarks})
             }
           })  
 
@@ -73,103 +75,45 @@ module.exports = {
 
   },
   likePost: async (req, res) => {
-    
-    const user = req.user._id
-
     const bookmarks = req.user.bookmarks
-
-    const track_id = req.params.id
+    const trackId = req.params.id
     
-    if(!bookmarks.includes(`${track_id}`)){
-        try {
-          
-          await Post.findOneAndUpdate({ _id: track_id },
-            {
-              $inc: { likes: 1 }
-            })
-            
-          await User.findOneAndUpdate({_id: user},
-            {
-              $addToSet: { bookmarks: track_id },
-            }) 
+    if(bookmarks[trackId]){
+        bookmarks[trackId] = false
+        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
+      } else {
+        bookmarks[trackId] = true
+        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
+    }
 
-          res.json({message:'Post Bookmarked'})
-
-        } catch (err) {
-
-          console.log(err)
-
-        }
-    } else {
-      try {
-        
-        await Post.findOneAndUpdate({ _id: track_id },
-          {
-            $inc: { likes: -1 }
-          })
-        
-        await User.findOneAndUpdate({_id: user},
-          {
-            $pull: { bookmarks: track_id }
-          })
-        
-        res.json({message:'Post unBookmarked'})
-
-      }catch (err) {
-
-        console.log(err)
-
-      }
+    try {
+        await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
+    } catch (error) {
+        console.log(error)
     }
   },
   followArtist: async (req, res) => {
 
-    const userIsFollowing = req.user.following
+    const user = req.user
+    const following = user.following
+    const artistId = req.params.id
+    const artist = await User.findOne({_id: artistId})
+    const artistFollowers = artist.followers
 
-    const artist = req.params.id
-
-    const user = req.user._id
-
-    if(!userIsFollowing.includes(`${artist}`)){
-      try {
-          
-        await User.findOneAndUpdate({ _id: user },
-          {
-            $addToSet: { following: `${artist}` }
-          })
-          
-        await User.findOneAndUpdate({_id: artist},
-          {
-            $push: { followers: `${user}` },
-          }) 
-      
-        res.json(`${req.user.userName} is now following ${artist}`)
-
-        } catch (err) {
-        
-          console.log(err)
-
-      }
-    } else {
-      try {
-        
-        await User.findOneAndUpdate({ _id: user },
-          {
-            $pull: { following: `${artist}` }
-          })
-        
-        await User.findOneAndUpdate({_id: artist},
-          {
-            $pull: { followers: `${user}`}
-          })
-        
-        res.json(`${req.user.userName} is no longer following ${artist}`) 
-
-        } catch (err) {
-
-            console.log(err)
-      
-      }
+    if(following[artistId]){
+        // remove the artist from the list of artists the user followers
+        delete following[artistId]
+        await User.findOneAndUpdate({_id: user._id}, {following: following})
+        // remove the user from the list of users that follow the artist
+        delete artistFollowers[user._id]
+        await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
+      } else {
+        // add artist to the list of artists the user follows
+        following[artistId] = true
+        await User.findOneAndUpdate({_id: user._id}, {following: following})
+        // add user to the list of users who follow the artist 
+        artistFollowers[user._id] = true
+        await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
     }
   },
   deletePost: async (req, res) => {
