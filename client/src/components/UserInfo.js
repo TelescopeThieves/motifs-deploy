@@ -15,7 +15,7 @@ const UserInfo = (props) => {
         ( async () => {
             axios.get(`/getProfileOfArtist/${props.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
             .then(({ data }) => {
-                setFollowState(data.user.following.includes(props.id))
+                setFollowState(data.user.following[props.id])
             })
             .catch(() => console.log('failed to fetch from url'))
             }

@@ -16,12 +16,12 @@ const UserSchema = new mongoose.Schema({
     default: []
   },
   followers: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   following: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   }
 });
 
