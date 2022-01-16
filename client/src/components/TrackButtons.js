@@ -22,7 +22,7 @@ const TrackButtons = (props) => {
             axios.get(`/getSinglePost/${props.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
             .then(({ data }) => {
                 toggle(data.user.bookmarks[data.post[0]._id])
-                setFollowing(data.user.following.includes(data.artist[0]._id))
+                setFollowing(data.user.following[data.artist[0]._id])
             })
             .catch(() => console.log('failed to fetch from url'))
             }

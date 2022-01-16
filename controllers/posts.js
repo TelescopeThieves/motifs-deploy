@@ -142,49 +142,24 @@ module.exports = {
 
     const user = req.user
     const following = user.following
+    const artistId = req.params.id
+    const artist = await User.findOne({_id: artistId})
+    const artistFollowers = artist.followers
 
-    if(following.every(follow => `${follow}` !== `${req.params.id}`)){
-        try {
-            await User.findOneAndUpdate({ _id: req.user._id },
-              {
-                $addToSet: { following: `${req.params.id}` }
-              })
-              console.log(`${user.userName} is now following ${req.params.id}`)
-          }catch (err) {
-              console.log(err)
-          }
-    } else{
-        try {
-            await User.findOneAndUpdate({ _id: req.user._id },
-              {
-                $pull: { following: `${req.params.id}` }
-              })
-              console.log(`${user.userName} is no longer following ${req.params.id}`)  
-          }catch (err) {
-              console.log(err)
-          }
-    }
-
-    if(following.every(follow => `${follow}` !== `${req.params.id}`)){
-        try {
-            await User.findOneAndUpdate({_id: req.params.id},
-                {
-                $push: { followers: `${req.user._id}` },
-                })   
-          } 
-          catch (err) {
-            console.log(err)
-          }
-    }else{
-        try {
-            await User.findOneAndUpdate({_id: req.params.id},
-                {
-                $pull: { followers: `${req.user._id}`}
-                })
-          } 
-       catch (err) {
-        console.log(err)
-      }
+    if(following[artistId]){
+        // remove the artist from the list of artists the user followers
+        delete following[artistId]
+        await User.findOneAndUpdate({_id: user._id}, {following: following})
+        // remove the user from the list of users that follow the artist
+        delete artistFollowers[user._id]
+        await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
+      } else {
+        // add artist to the list of artists the user follows
+        following[artistId] = true
+        await User.findOneAndUpdate({_id: user._id}, {following: following})
+        // add user to the list of users who follow the artist 
+        artistFollowers[user._id] = true
+        await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
     }
   },
   deletePost: async (req, res) => {
