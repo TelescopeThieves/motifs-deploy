@@ -43,23 +43,20 @@ module.exports = {
             console.log(res)
             console.log(err)
           })
-
           // delete post from mongoDB
           await Post.findOneAndDelete({ _id: String(postId)})
-
-          // delete the post from user bookmarks
+          
+          // delete the post from all user bookmarks
           const users = await User.find()
           await users.forEach( async (user) => {
+            
+            const bookmarks = user.bookmarks
+            
+            if(bookmarks[postId]){
 
-            if(user.bookmarks.includes(postId)){
-
+              delete bookmarks.postId
               
-              await User.findByIdAndUpdate(
-                  {_id: user._id},
-                  {
-                    $pull: {bookmarks: String(postId)}
-                  }
-                  )
+              await User.findByIdAndUpdate({_id: user._id},{ bookmarks: bookmarks})
             }
           })  
 
@@ -77,54 +74,69 @@ module.exports = {
 
   },
   likePost: async (req, res) => {
+    const bookmarks = req.user.bookmarks
+    const trackId = req.params.id
+    
+    if(bookmarks[trackId]){
+        bookmarks[trackId] = false
+        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
+      } else {
+        bookmarks[trackId] = true
+        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
+    }
 
-    const bookmarkedBy = req.user
-    const bookmarks = bookmarkedBy.bookmarks
+    try {
+        await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
+    } catch (error) {
+        console.log(error)
+    }
+    // const bookmarkedBy = req.user
+    // const bookmarks = bookmarkedBy.bookmarks
 
     
-    if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
-        try {
-            await Post.findOneAndUpdate({ _id: req.params.id },
-              {
-                $inc: { likes: 1 }
-              })
-          console.log('Post Bookmarked')    
-          }catch (err) {
-              console.log(err)
-          }
-    } else{
-        try {
-            await Post.findOneAndUpdate({ _id: req.params.id },
-              {
-                $inc: { likes: -1 }
-              })
-          console.log('Post unBookmarked')     
-          }catch (err) {
-              console.log(err)
-          }
-    }
+    // if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
+    //     try {
+    //         await Post.findOneAndUpdate({ _id: req.params.id },
+    //           {
+    //             $inc: { likes: 1 }
+    //           })
+    //       console.log('Post Bookmarked')    
+    //       }catch (err) {
+    //           console.log(err)
+    //       }
+    // } else{
+    //     try {
+    //         await Post.findOneAndUpdate({ _id: req.params.id },
+    //           {
+    //             $inc: { likes: -1 }
+    //           })
+    //       console.log('Post unBookmarked')     
+    //       }catch (err) {
+    //           console.log(err)
+    //       }
+    // }
 
-    if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
-        try {
-            await User.findOneAndUpdate({_id: req.user._id},
-                {
-                $addToSet: { bookmarks: req.params.id },
-                })   
-          } 
-          catch (err) {
-            console.log(err)
-          }
-    }else{
-        try {
-            await User.findOneAndUpdate({_id: req.user._id},
-                {
-                $pull: { bookmarks: req.params.id }
-                })
-          } 
-       catch (err) {
-        console.log(err)
-      }
-    }
+    // if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
+    //     try {
+    //         await User.findOneAndUpdate({_id: req.user._id},
+    //             {
+    //             $addToSet: { bookmarks: req.params.id },
+    //             })   
+    //       } 
+    //       catch (err) {
+    //         console.log(err)
+    //       }
+    // }else{
+    //     try {
+    //         await User.findOneAndUpdate({_id: req.user._id},
+    //             {
+    //             $pull: { bookmarks: req.params.id }
+    //             })
+    //       } 
+    //    catch (err) {
+    //     console.log(err)
+    //   }
+    // }
   },
   followArtist: async (req, res) => {
 
