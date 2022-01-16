@@ -8,26 +8,23 @@ import { Planet } from "phosphor-react";
 
 
 const Nav = () => {
-    const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
-    const [loggedOut, setLoggedOut] = useState(false)
+    const {loggedInUser, setLoggedInUser, logout} = useContext(UserContext)
 
+    const logoutFunc = async () => {
 
-    const logout = async () => {
-
-            await fetch('/auth/logoutUser', {
-                method: 'POST',
-                credentials: 'include', // Needed to include the cookie
-              });
-              // Clear user from context
-              setLoggedInUserContext({});
-              setLoggedOut(true)
+            // await fetch('/auth/logout', {
+            //     method: 'POST',
+            //     credentials: 'include', // Needed to include the cookie
+            //   });
+            //   // Clear user from context
+            //   setLoggedInUser({});
+            logout();
     }
-    if(loggedOut){
-        return(
-            <Redirect to='/' />
-        )
-    }
-    console.log(loggedInUserContext)
+    // if(loggedOut){
+    //     return(
+    //         <Redirect to='/' />
+    //     )
+    // }
     return(
 
         <nav className="padding-top padding-bottom padding-left padding-right">
@@ -36,7 +33,7 @@ const Nav = () => {
             <Link to="/">
                 <h1>Motifs</h1>
             </Link>
-            {loggedInUserContext &&
+            {loggedInUser.refreshtoken &&
                 <ul>
                     <li className="margin-left2">
                     <Link to='/feed'>
@@ -52,13 +49,13 @@ const Nav = () => {
             }
     </section>
     <section className='homeAndLogOut'>
-        {loggedInUserContext &&
-        <Link to={`/profileOfArtist/${loggedInUserContext._id}`}>
+        {loggedInUser.refreshtoken &&
+        <Link to={`/profileOfArtist/${loggedInUser._id}`}>
             Home
         </Link>
         }
         <Link to='/'>
-            <a href='/' className="margin-left2" onClick={logout}>Logout</a>
+            <a href='/' className="margin-left2" onClick={logoutFunc}>Logout</a>
         </Link>
     </section>
 </nav>

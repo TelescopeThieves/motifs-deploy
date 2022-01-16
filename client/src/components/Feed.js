@@ -3,16 +3,13 @@ import AudioAndArt from './AudioAndArt'
 import SortSec from './SortSec'
 import axios from 'axios'
 import { UserContext } from '../Context/UserContext'
-import { Link, Redirect } from 'react-router-dom'
-import {ArrowSquareOut, MusicNotesSimple, Planet} from "phosphor-react";
 import NavSide from './NavSide'
 
 
 
 const Feed = () => {
-    const [loggedOut, setLoggedOut] = useState(false)
 
-    const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
+    const {loggedInUser, setLoggedInUser} = useContext(UserContext)
 
     const [isLoading, setIsLoading] = useState(true) 
     
@@ -68,7 +65,7 @@ const Feed = () => {
 
     const getFeed = async (url) => {
 
-        const res = await axios.get(url, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+        const res = await axios.get(url, {headers: {Authentication: loggedInUser?.accesstoken}})
 
         setFeed({
             posts: res.data.posts,
@@ -77,30 +74,15 @@ const Feed = () => {
         setIsLoading(false)
     }
 
-    const logout = async () => {
-
-        await fetch('/auth/logoutUser', {
-            method: 'POST',
-            credentials: 'include', // Needed to include the cookie
-          });
-          // Clear user from context
-          setLoggedInUserContext({});
-          setLoggedOut(true)
-    }
     
     useEffect(() => {
         getFeed(sort.url)
     }, [sort.url]);
 
-    const {posts, user} = feed
+    const {posts} = feed
     
     if(isLoading){
         return <div>is loading...</div>
-    }
-    if(loggedOut){
-        return(
-            <Redirect to='/' />
-        )
     }
     return(
         <div className='window'>
@@ -121,9 +103,9 @@ const Feed = () => {
                             sortColor={sortClass.color}
                         />
                     </div>
-                    {posts.map((post,i) =>{
+                    {posts.map((post) =>{
                         return <AudioAndArt  
-                                            key={i}
+                                            key={post._id}
                                             audioSrc={post.audio} 
                                             id={post._id} 
                                             userWhoCreatedPost={post.user} 
@@ -131,10 +113,10 @@ const Feed = () => {
                                             title={post.title}
                                             imgLink={post.art}
                                             cashAppLink={post.cashAppLink}
-                                            loggedInUser={user}
-                                            loggedInUserId={user._id}
+                                            loggedInUser={loggedInUser}
+                                            loggedInUserId={loggedInUser._id}
                                             post={post}
-                                            isBookmarked={user.bookmarks.includes(post._id)}
+                                            isBookmarked={loggedInUser.bookmarks.includes(post._id)}
 
                                 />
                             })}

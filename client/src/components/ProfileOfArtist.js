@@ -10,10 +10,9 @@ import NavSide from './NavSide'
 
 const ProfileOfArtist = () => {
 
-const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
+const {loggedInUser, setLoggedInUser} = useContext(UserContext)
 
 const [isLoading, setIsLoading] = useState(true)
-const [loggedOut, setLoggedOut] = useState(false)
 
 const [feed, setFeed] = useState({
     posts: [],
@@ -25,16 +24,16 @@ const [feed, setFeed] = useState({
 
 const artistId = useParams()
 
-const {artist, posts, loggedInUser, following} = feed
+const {artist, posts, currentUser, following} = feed
 
 useEffect(() => {
     ( async () => {
-        axios.get(`/getProfileOfArtist/${artistId.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+        axios.get(`/getProfileOfArtist/${artistId.id}`, {headers: {Authentication: loggedInUser?.accesstoken}})
         .then(({ data }) => {
             setFeed({
                 dataBack: data,
                 posts: data.posts,
-                loggedInUser: data.user,
+                currentUser: data.user,
                 artist: data.artist[0],
                 following: data.user.following.includes(artist._id)
             })
@@ -50,15 +49,15 @@ useEffect(() => {
 
     if(isLoading){
         return (
-            <div>is loading ...</div>
+            <></>
         )
     }
 
-    if(loggedOut){
-        return (
-            <Redirect to='/' />
-        )
-    }
+    // if(loggedOut){
+    //     return (
+    //         <Redirect to='/' />
+    //     )
+    // }
 
     return(
         <div className='window'>

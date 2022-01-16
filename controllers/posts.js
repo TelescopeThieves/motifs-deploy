@@ -13,9 +13,9 @@ module.exports = {
   createPost: async (req, res) => {
     try {
     const user = req.user
-    // // upload audio to cloudinary
+    // upload audio to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {resource_type: 'video'},function(error, result) {
-		    if (error) {
+      if (error) {
 			      console.log(error)
 		  } else {
 			      console.log(`uploaded!`);
@@ -25,17 +25,18 @@ module.exports = {
     const thisPost =  await Post.create({
         artist: req.body.artist,
         title: req.body.title,
-        cashAppLink: user.cashAppLink,
+        cashAppLink: user.cashAppLink || null,
+        instagram: user.instagram || null,
+        twitter: user.twitter || null,
         audio: result.secure_url,
         cloudinaryId: result.public_id,
-        caption: req.body.caption,
+        caption: req.body.caption || null,
         likes: 0,
         user: req.user._id,
         art: req.body.art
       })
-      const cloudName = String(result.public_id)
-      const postId = thisPost._id
-
+    const cloudName = String(result.public_id)
+    const postId = thisPost._id
     // Delete audio/post from cloudinary/mongo after 24 hours
     setTimeout(async () =>{
       try {
@@ -43,17 +44,12 @@ module.exports = {
             console.log(res)
             console.log(err)
           })
-
           // delete post from mongoDB
           await Post.findOneAndDelete({ _id: String(postId)})
-
           // delete the post from user bookmarks
           const users = await User.find()
           await users.forEach( async (user) => {
-
             if(user.bookmarks.includes(postId)){
-
-              
               await User.findByIdAndUpdate(
                   {_id: user._id},
                   {
@@ -77,114 +73,114 @@ module.exports = {
 
   },
   likePost: async (req, res) => {
-
-    const bookmarkedBy = req.user
-    const bookmarks = bookmarkedBy.bookmarks
-
     
-    if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
-        try {
-            await Post.findOneAndUpdate({ _id: req.params.id },
-              {
-                $inc: { likes: 1 }
-              })
-          console.log('Post Bookmarked')    
-          }catch (err) {
-              console.log(err)
-          }
-    } else{
-        try {
-            await Post.findOneAndUpdate({ _id: req.params.id },
-              {
-                $inc: { likes: -1 }
-              })
-          console.log('Post unBookmarked')     
-          }catch (err) {
-              console.log(err)
-          }
-    }
+    const user = req.user._id
 
-    if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
+    const bookmarks = req.user.bookmarks
+
+    const track_id = req.params.id
+    
+    if(!bookmarks.includes(`${track_id}`)){
         try {
-            await User.findOneAndUpdate({_id: req.user._id},
-                {
-                $addToSet: { bookmarks: req.params.id },
-                })   
-          } 
-          catch (err) {
-            console.log(err)
-          }
-    }else{
-        try {
-            await User.findOneAndUpdate({_id: req.user._id},
-                {
-                $pull: { bookmarks: req.params.id }
-                })
-          } 
-       catch (err) {
+          
+          await Post.findOneAndUpdate({ _id: track_id },
+            {
+              $inc: { likes: 1 }
+            })
+            
+          await User.findOneAndUpdate({_id: user},
+            {
+              $addToSet: { bookmarks: track_id },
+            }) 
+
+          res.json({message:'Post Bookmarked'})
+
+        } catch (err) {
+
+          console.log(err)
+
+        }
+    } else {
+      try {
+        
+        await Post.findOneAndUpdate({ _id: track_id },
+          {
+            $inc: { likes: -1 }
+          })
+        
+        await User.findOneAndUpdate({_id: user},
+          {
+            $pull: { bookmarks: track_id }
+          })
+        
+        res.json({message:'Post unBookmarked'})
+
+      }catch (err) {
+
         console.log(err)
+
       }
     }
   },
   followArtist: async (req, res) => {
 
-    const user = req.user
-    const following = user.following
+    const userIsFollowing = req.user.following
 
-    if(following.every(follow => `${follow}` !== `${req.params.id}`)){
-        try {
-            await User.findOneAndUpdate({ _id: req.user._id },
-              {
-                $addToSet: { following: `${req.params.id}` }
-              })
-              console.log(`${user.userName} is now following ${req.params.id}`)
-          }catch (err) {
-              console.log(err)
-          }
-    } else{
-        try {
-            await User.findOneAndUpdate({ _id: req.user._id },
-              {
-                $pull: { following: `${req.params.id}` }
-              })
-              console.log(`${user.userName} is no longer following ${req.params.id}`)  
-          }catch (err) {
-              console.log(err)
-          }
-    }
+    const artist = req.params.id
 
-    if(following.every(follow => `${follow}` !== `${req.params.id}`)){
-        try {
-            await User.findOneAndUpdate({_id: req.params.id},
-                {
-                $push: { followers: `${req.user._id}` },
-                })   
-          } 
-          catch (err) {
+    const user = req.user._id
+
+    if(!userIsFollowing.includes(`${artist}`)){
+      try {
+          
+        await User.findOneAndUpdate({ _id: user },
+          {
+            $addToSet: { following: `${artist}` }
+          })
+          
+        await User.findOneAndUpdate({_id: artist},
+          {
+            $push: { followers: `${user}` },
+          }) 
+      
+        res.json(`${req.user.userName} is now following ${artist}`)
+
+        } catch (err) {
+        
+          console.log(err)
+
+      }
+    } else {
+      try {
+        
+        await User.findOneAndUpdate({ _id: user },
+          {
+            $pull: { following: `${artist}` }
+          })
+        
+        await User.findOneAndUpdate({_id: artist},
+          {
+            $pull: { followers: `${user}`}
+          })
+        
+        res.json(`${req.user.userName} is no longer following ${artist}`) 
+
+        } catch (err) {
+
             console.log(err)
-          }
-    }else{
-        try {
-            await User.findOneAndUpdate({_id: req.params.id},
-                {
-                $pull: { followers: `${req.user._id}`}
-                })
-          } 
-       catch (err) {
-        console.log(err)
+      
       }
     }
   },
   deletePost: async (req, res) => {
-
-    const post = await Post.find({_id: req.params.id})
+    const track_id = req.params.id
+    const post = await Post.find({_id: track_id})
     try {
-
       cloudinary.uploader.destroy(post[0].cloudinaryId, {resource_type: 'video'}, (err,res) => {
         console.log(res)
         console.log(err)
       })
-      await Post.findOneAndDelete({ _id: req.params.id })
+      await Post.findOneAndDelete({ _id: track_id })
       console.log('Deleted Post')
     } catch (err) {
       console.log(err)

@@ -1,15 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { UserContext } from '../Context/UserContext'
-import axios from 'axios'
-import {Redirect} from "react-router-dom";
 import PostField from './PostField';
 import NavSidePublic from './NavSidePublic';
 
 const Login = () => {
 
 
-    const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
-    const [redirect, setRedirect] = useState(false)
+    const { login} = useContext(UserContext)
 
     const [values, setValues] = useState({
         email: '',
@@ -25,34 +22,10 @@ const Login = () => {
         })
     }
 
-    const handleSubmitFile = (e) => {
+    const loginToAccount = async (e) => {
         e.preventDefault()
-        loginToAccount()
+        login(values);                         
     }
-
-    const loginToAccount = async () => {
-
-
-        const res = await axios.post('/auth/loginUser', values)
-        
-        console.log(res.data)
-        
-        const {refreshtoken, accesstoken, userId} = res.data
-
-        if(refreshtoken){
-            setLoggedInUserContext({refreshtoken, accesstoken, userId})
-            setRedirect(true)
-        }else{
-            console.log('whoops')
-        }
-                                
-    }
-
-if(redirect){
-    return(
-        <Redirect to='/feed' />
-    )
-} else{
 
     return (
         <div className='window'>
@@ -64,7 +37,6 @@ if(redirect){
                     </div>
                     <form
                         className='uploadForm padding'
-                        onSubmit={handleSubmitFile}
                     >
                         <div className=''>
 
@@ -91,7 +63,10 @@ if(redirect){
                                 />
                         </div>
                         <div className="postField margin-top2">
-                            <button type='submit' className="trackBtn padding-top padding-bottom">
+                            <button  
+                            className="trackBtn padding-top padding-bottom"
+                            onClick={(e) => loginToAccount(e)}
+                            >
                                 Login
                             </button>
                         </div>
@@ -100,8 +75,6 @@ if(redirect){
             </div>
         </div>
         )
-}
-
 }
 
 export default Login

@@ -6,35 +6,32 @@ import Button from './Button';
 
 
 const Landing = () => {
-    const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
-    const [redirect, setRedirect] = useState(false)
+    const {loggedInUser, setLoggedInUser, login} = useContext(UserContext)
     const guest = {
         email: "guest@guest.com",
         password: "12341234"
     }
     const guestLogin = async () => {
 
-        const res = await axios.post('/auth/loginUser', guest)
-        
-        console.log(res.data)
-        
-        const {refreshtoken, accesstoken, userId} = res.data
+        // const res = await axios.post('/auth/login', guest)
+            
+        // const {refreshtoken, accesstoken, userId} = res.data
 
-        if(refreshtoken){
-            setLoggedInUserContext({refreshtoken, accesstoken, userId})
-            setRedirect(true)
-        }else{
-            console.log('whoops')
-        }
+        // if(refreshtoken){
+        //     setLoggedInUser({refreshtoken, accesstoken, userId})
+        // }else{
+        //     console.log('whoops')
+        // }
+        login(guest);
     }
-    if(redirect){
-        return (
-            <Redirect to='/feed' />
-        )
-    }
+    // if(redirect){
+    //     return (
+    //         <Redirect to='/feed' />
+    //     )
+    // }
     return(
         <section className="gradient landing">
-            <section className="">
+            <section>
                 
                 <section className='width100 padding'>
                     <h1 className="darkGrey bigFont">Welcome to Motifs!</h1>

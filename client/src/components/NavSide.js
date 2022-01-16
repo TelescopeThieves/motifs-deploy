@@ -10,28 +10,11 @@ import {ArrowSquareOut, MusicNotesSimple, Planet, GlobeHemisphereWest} from "pho
 
 const NavSide = () => {
 
-    const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
+    const {loggedInUser, logout} = useContext(UserContext)
 
-    const [loggedOut, setLoggedOut] = useState(false)
-
-    const logout = async (e) => {
-        
+    const logoutFunc = async (e) => {        
         e.preventDefault()
-
-        await fetch('/auth/logoutUser', {
-            method: 'POST',
-            credentials: 'include', // Needed to include the cookie
-          });
-        // Clear user from context
-        setLoggedInUserContext({});
-        //redirect to home
-        setLoggedOut(true)
-    }
-
-    if(loggedOut){
-        return(
-            <Redirect to='/' />
-        )
+        logout();
     }
 
     return (
@@ -44,7 +27,7 @@ const NavSide = () => {
                         </div>
                     </Link>
 
-                    <Link to={`/profileOfArtist/${loggedInUserContext.userId}`}>
+                    <Link to={`/profileOfArtist/${loggedInUser.userId}`}>
                         <div className='flex column center padding-bottom padding-top border-bottom feedLogout'>
                             <GlobeHemisphereWest size={24} />
                             <span className=''>Home</span>
@@ -60,7 +43,7 @@ const NavSide = () => {
                         </div>
                     </Link>
                 </div>
-                <div className='flex column center padding-top padding-bottom width100 border-top feedLogout' onClick={logout}>
+                <div className='flex column center padding-top padding-bottom width100 border-top feedLogout' onClick={logoutFunc}>
                         <ArrowSquareOut size={24} />
                     <span>
                         Log out

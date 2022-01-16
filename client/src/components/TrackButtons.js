@@ -11,7 +11,7 @@ import { UserContext } from '../Context/UserContext'
 
 const TrackButtons = (props) => {
 
-    const {loggedInUserContext} = useContext(UserContext)
+    const {loggedInUser} = useContext(UserContext)
     const canDelete = String(props.loggedInUserId) === String(props.userWhoCreatedPost)
     const [bookState, toggle] = useState()
     const [followState, setFollowing] = useState()
@@ -19,7 +19,7 @@ const TrackButtons = (props) => {
 
     useEffect(() => {
         ( async () => {
-            axios.get(`/getSinglePost/${props.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            axios.get(`/getSinglePost/${props.id}`, {headers: {Authentication: loggedInUser?.accesstoken}})
             .then(({ data }) => {
                 toggle(data.user.bookmarks.includes(data.post[0]._id))
                 setFollowing(data.user.following.includes(data.artist[0]._id))
@@ -32,21 +32,21 @@ const TrackButtons = (props) => {
     function toggleBookmark(){
 
         (async () => {
-            await axios.post(`/post/likePost/${props.id}?_method=PUT`,{},{headers: {Authentication: loggedInUserContext?.accesstoken}})
+            await axios.post(`/post/likePost/${props.id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         toggle(!bookState)
     }
     function toggleFollowButton(){
 
         (async () => {
-            await axios.post(`/post/followArtist/${props.userWhoCreatedPost}?_method=PUT`,{}, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            await axios.post(`/post/followArtist/${props.userWhoCreatedPost}?_method=PUT`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         setFollowing(!followState)
     }
     function deleteTrack(){
 
         (async () => {
-            await axios.post(`/post/deletePost/${props.id}?_method=DELETE`,{}, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            await axios.post(`/post/deletePost/${props.id}?_method=DELETE`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         window.location.reload()
     }
