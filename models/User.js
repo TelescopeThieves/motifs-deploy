@@ -12,8 +12,8 @@ const UserSchema = new mongoose.Schema({
   avatar: String,
   refreshtoken: String,
   bookmarks: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   },
   followers: {
     type: Array,

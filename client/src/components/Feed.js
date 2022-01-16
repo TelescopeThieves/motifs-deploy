@@ -134,7 +134,7 @@ const Feed = () => {
                                             loggedInUser={user}
                                             loggedInUserId={user._id}
                                             post={post}
-                                            isBookmarked={user.bookmarks.includes(post._id)}
+                                            isBookmarked={user.bookmarks[post._id]}
 
                                 />
                             })}

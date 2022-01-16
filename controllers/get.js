@@ -124,14 +124,16 @@ module.exports = {
   },
   getLibrary: async (req, res) => {
     try {
-    //   let user = await User.find({_id: req.user.id})
-    //   user = user[0]
-        const user = req.user
-        const posts = await Promise.all(user.bookmarks.map(async (bookmark) => {
-                const bookmarkedPost = await Post.find({_id: bookmark})
-                return bookmarkedPost[0]
-            }))
-    res.json({posts, user})
+      const user = req.user
+      const bookmarks = req.user.bookmarks
+      const posts = []
+      for(const bookmark in bookmarks){
+        if(bookmarks[bookmark]){
+          const bookmarkedPost = await Post.find({_id: bookmark})
+          posts.push(bookmarkedPost[0]) 
+        }
+      }
+      res.json({posts, user})
     } catch (err) {
       console.log(err)
     }
