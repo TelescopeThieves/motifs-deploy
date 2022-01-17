@@ -7,7 +7,7 @@ import SideNav from './styled/SideNav';
 import NavDiv from './styled/NavDiv';
 
 
-const NavSide = (props) => {
+const NavSide2 = (props) => {
     const {logout} = useContext(UserContext)
 
     return(
@@ -62,4 +62,4 @@ const NavSide = (props) => {
     )
 }
 
-export default NavSide
+export default NavSide2

@@ -28,9 +28,7 @@ module.exports = {
         }
   },
   getLoggedInUser: async (req, res) => {
-    
-    // let isLoggedIn = false
-    
+        
     const user = req.user
 
     if(user){
@@ -55,15 +53,17 @@ module.exports = {
     }
   },
   getFollowers: async (req, res) => {
-      try {
-          const user = req.user
-          const followers = await Promise.all(user.followers.map(async (follower) => {
-                const followedBy = await User.find({_id: follower})
-                return followedBy[0]
-          }))
-          res.json({ followers, user })          
-        } catch (err) {
-      console.log(err)
+    const targetUser = await User.findById({_id: req.params.id})
+    const followers = targetUser.followers
+    const followersOfUser = []
+    try {
+      for(const follower in followers){
+        const eachFollower = await User.findById({_id: follower})
+        followersOfUser.push(eachFollower)
+      }
+      res.json({followersOfUser})
+    } catch (error) {
+      console.log(error)
     }
   },
   getFollowing: async (req, res) => {
