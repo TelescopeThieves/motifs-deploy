@@ -8,19 +8,19 @@ import { UserContext } from '../Context/UserContext'
 
 const UserInfo = (props) => {
 
-    const {loggedInUserContext} = useContext(UserContext)
+    const {loggedInUser} = useContext(UserContext)
 
     const [followState, setFollowState] = useState(props.followCheck)
     useEffect(() => {
         ( async () => {
-            axios.get(`/getProfileOfArtist/${props.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            axios.get(`/getProfileOfArtist/${props.id}`, {headers: {Authentication: loggedInUser?.accesstoken}})
             .then(({ data }) => {
                 setFollowState(data.user.following[props.id])
             })
             .catch(() => console.log('failed to fetch from url'))
             }
         )()
-    }, [props.id]);
+    }, [props.id, loggedInUser?.accesstoken]);
 
     function toggleFollowButton(){
 

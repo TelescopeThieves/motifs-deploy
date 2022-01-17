@@ -13,9 +13,9 @@ module.exports = {
   createPost: async (req, res) => {
     try {
     const user = req.user
-    // // upload audio to cloudinary
+    // upload audio to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {resource_type: 'video'},function(error, result) {
-		    if (error) {
+      if (error) {
 			      console.log(error)
 		  } else {
 			      console.log(`uploaded!`);
@@ -25,17 +25,18 @@ module.exports = {
     const thisPost =  await Post.create({
         artist: req.body.artist,
         title: req.body.title,
-        cashAppLink: user.cashAppLink,
+        cashAppLink: user.cashAppLink || null,
+        instagram: user.instagram || null,
+        twitter: user.twitter || null,
         audio: result.secure_url,
         cloudinaryId: result.public_id,
-        caption: req.body.caption,
+        caption: req.body.caption || null,
         likes: 0,
         user: req.user._id,
         art: req.body.art
       })
-      const cloudName = String(result.public_id)
-      const postId = thisPost._id
-
+    const cloudName = String(result.public_id)
+    const postId = thisPost._id
     // Delete audio/post from cloudinary/mongo after 24 hours
     setTimeout(async () =>{
       try {
@@ -84,59 +85,12 @@ module.exports = {
         bookmarks[trackId] = true
         await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
     }
-
     try {
         await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
+        res.json({msg: "bookmark updated"})
     } catch (error) {
         console.log(error)
     }
-    // const bookmarkedBy = req.user
-    // const bookmarks = bookmarkedBy.bookmarks
-
-    
-    // if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
-    //     try {
-    //         await Post.findOneAndUpdate({ _id: req.params.id },
-    //           {
-    //             $inc: { likes: 1 }
-    //           })
-    //       console.log('Post Bookmarked')    
-    //       }catch (err) {
-    //           console.log(err)
-    //       }
-    // } else{
-    //     try {
-    //         await Post.findOneAndUpdate({ _id: req.params.id },
-    //           {
-    //             $inc: { likes: -1 }
-    //           })
-    //       console.log('Post unBookmarked')     
-    //       }catch (err) {
-    //           console.log(err)
-    //       }
-    // }
-
-    // if(bookmarks.every(bookmark => `${bookmark}` !== `${req.params.id}`)){
-    //     try {
-    //         await User.findOneAndUpdate({_id: req.user._id},
-    //             {
-    //             $addToSet: { bookmarks: req.params.id },
-    //             })   
-    //       } 
-    //       catch (err) {
-    //         console.log(err)
-    //       }
-    // }else{
-    //     try {
-    //         await User.findOneAndUpdate({_id: req.user._id},
-    //             {
-    //             $pull: { bookmarks: req.params.id }
-    //             })
-    //       } 
-    //    catch (err) {
-    //     console.log(err)
-    //   }
-    // }
   },
   followArtist: async (req, res) => {
 
@@ -147,31 +101,40 @@ module.exports = {
     const artistFollowers = artist.followers
 
     if(following[artistId]){
-        // remove the artist from the list of artists the user followers
-        delete following[artistId]
-        await User.findOneAndUpdate({_id: user._id}, {following: following})
-        // remove the user from the list of users that follow the artist
-        delete artistFollowers[user._id]
-        await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
+      delete following[artistId]
+      delete artistFollowers[user._id]
+      try {
+          // remove the artist from the list of artists the user followers
+          await User.findOneAndUpdate({_id: user._id}, {following: following})
+          // remove the user from the list of users that follow the artist
+          await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
+          res.json({msg: `${user.userName} is no longer following ${artist.userName}`})
+        } catch (error) {
+          console.log(error)
+        }
       } else {
-        // add artist to the list of artists the user follows
         following[artistId] = true
-        await User.findOneAndUpdate({_id: user._id}, {following: following})
-        // add user to the list of users who follow the artist 
         artistFollowers[user._id] = true
-        await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
+        try {
+          // add artist to the list of artists the user follows
+          await User.findOneAndUpdate({_id: user._id}, {following: following})
+          // add user to the list of users who follow the artist 
+          await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
+          res.json({msg: `${user.userName} is now following ${artist.userName}`})
+        } catch (error) {
+          console.log(error)
+        }
     }
   },
   deletePost: async (req, res) => {
-
-    const post = await Post.find({_id: req.params.id})
+    const track_id = req.params.id
+    const post = await Post.find({_id: track_id})
     try {
-
       cloudinary.uploader.destroy(post[0].cloudinaryId, {resource_type: 'video'}, (err,res) => {
         console.log(res)
         console.log(err)
       })
-      await Post.findOneAndDelete({ _id: req.params.id })
+      await Post.findOneAndDelete({ _id: track_id })
       console.log('Deleted Post')
     } catch (err) {
       console.log(err)

@@ -7,7 +7,7 @@ import NavSide from './NavSide'
 
 const SinglePost = () => {
 
-    const {loggedInUserContext} = useContext(UserContext)
+    const {loggedInUser} = useContext(UserContext)
 
     const [isLoading, setIsLoading] = useState(true)    
     const [singlePostValues, setSinglePostValues] = useState({
@@ -19,7 +19,7 @@ const SinglePost = () => {
     const postId = useParams()
     useEffect(() => {
         ( async () => {
-            axios.get(`/getSinglePost/${postId.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            axios.get(`/getSinglePost/${postId.id}`, {headers: {Authentication: loggedInUser?.accesstoken}})
             .then(({ data }) => {
                 setSinglePostValues({
                     'artist': data.artist[0],
@@ -33,9 +33,9 @@ const SinglePost = () => {
             .catch(() => console.log('failed to fetch from url'))
             }
         )()
-    }, [postId.id]);
+    }, [postId.id, loggedInUser?.accesstoken]);
 
-    const {artist, post, loggedInUser, isBookmarked, isFollowed} = singlePostValues
+    const {artist, post, isBookmarked, isFollowed} = singlePostValues
     
     if(!isLoading){
         return(

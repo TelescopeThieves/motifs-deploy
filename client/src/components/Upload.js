@@ -11,7 +11,7 @@ const FormData = require('form-data');
 const Upload = () => {
 
 
-    const {loggedInUserContext} = useContext(UserContext)
+    const {loggedInUser} = useContext(UserContext)
 
 
     const [values, setValues] = useState({
@@ -56,38 +56,12 @@ const Upload = () => {
     formData.append('caption', values.caption)
     formData.append('art', values.art)
 
-    await axios.post('/post/createPost', formData, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+    await axios.post('/post/createPost', formData, {headers: {Authentication: loggedInUser?.accesstoken}})
 
     setUploading(false)
     setRedirect(true)
 
     }
-
-
-    // upload art 
-    // const handleArtInputChange = (e) => {
-    //     const art = e.target.files[0]
-    //     setArtInputState(art)
-    // }
-
-    // const handleSubmitArt = (e) => {
-    //     e.preventDefault()
-    //     if(!artInputState) return
-    //     uploadArt(artInputState)
-    //     setUploading(true)
-
-    // }
-    // const uploadArt = async (art) => {
-
-    // const formData = new FormData()
-    // formData.append('file', art)
-
-    // axios.put(`/post/addArt/${uploadId}`, formData)
-    // .then(({data}) => {
-    //     console.log(data)
-    //     setRedirect(true)
-    //   })
-    // }
 
     if(uploading){
         return(

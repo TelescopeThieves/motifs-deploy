@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams, Redirect, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import axios from 'axios'
 import AudioAndArt from './AudioAndArt'
@@ -10,10 +10,9 @@ import NavSide from './NavSide'
 
 const ProfileOfArtist = () => {
 
-const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
+const {loggedInUser} = useContext(UserContext)
 
 const [isLoading, setIsLoading] = useState(true)
-const [loggedOut, setLoggedOut] = useState(false)
 
 const [feed, setFeed] = useState({
     posts: [],
@@ -25,16 +24,16 @@ const [feed, setFeed] = useState({
 
 const artistId = useParams()
 
-const {artist, posts, loggedInUser, following} = feed
+const {artist, posts, following} = feed
 
 useEffect(() => {
     ( async () => {
-        axios.get(`/getProfileOfArtist/${artistId.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+        axios.get(`/getProfileOfArtist/${artistId.id}`, {headers: {Authentication: loggedInUser?.accesstoken}})
         .then(({ data }) => {
             setFeed({
                 dataBack: data,
                 posts: data.posts,
-                loggedInUser: data.user,
+                currentUser: data.user,
                 artist: data.artist[0],
                 following: data.user.following[artist._id]
             })
@@ -43,20 +42,11 @@ useEffect(() => {
         .catch(() => console.log('failed to fetch from url'))
         }
     )()
-    
-    
-
-    }, [artistId.id, artist._id]);
+    }, [artistId.id, artist._id, loggedInUser?.accesstoken]);
 
     if(isLoading){
         return (
-            <div>is loading ...</div>
-        )
-    }
-
-    if(loggedOut){
-        return (
-            <Redirect to='/' />
+            <></>
         )
     }
 

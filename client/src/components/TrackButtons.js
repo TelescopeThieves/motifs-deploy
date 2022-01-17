@@ -3,7 +3,7 @@ import Button from './Button'
 import FormButton from './FormButton'
 import axios from 'axios'
 import ButtonAnchor from './ButtonAnchor'
-import { Share,User,CurrencyCircleDollar, Heart, UserPlus, UserMinus, Trash} from "phosphor-react";
+import { CurrencyCircleDollar, Heart, UserPlus, UserMinus, Trash} from "phosphor-react";
 import { UserContext } from '../Context/UserContext'
 
 
@@ -11,15 +11,15 @@ import { UserContext } from '../Context/UserContext'
 
 const TrackButtons = (props) => {
 
-    const {loggedInUserContext} = useContext(UserContext)
+    const {loggedInUser} = useContext(UserContext)
     const canDelete = String(props.loggedInUserId) === String(props.userWhoCreatedPost)
     const [bookState, toggle] = useState()
-    const [followState, setFollowing] = useState()
+    const [followState, setFollowing] = useState(false)
 
 
     useEffect(() => {
         ( async () => {
-            axios.get(`/getSinglePost/${props.id}`, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            axios.get(`/getSinglePost/${props.id}`, {headers: {Authentication: loggedInUser?.accesstoken}})
             .then(({ data }) => {
                 toggle(data.user.bookmarks[data.post[0]._id])
                 setFollowing(data.user.following[data.artist[0]._id])
@@ -27,26 +27,26 @@ const TrackButtons = (props) => {
             .catch(() => console.log('failed to fetch from url'))
             }
         )()
-    }, [props.id]);
+    }, [props.id, loggedInUser?.accesstoken]);
 
     function toggleBookmark(){
 
         (async () => {
-            await axios.post(`/post/likePost/${props.id}?_method=PUT`,{},{headers: {Authentication: loggedInUserContext?.accesstoken}})
+            await axios.post(`/post/likePost/${props.id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         toggle(!bookState)
     }
     function toggleFollowButton(){
 
         (async () => {
-            await axios.post(`/post/followArtist/${props.userWhoCreatedPost}?_method=PUT`,{}, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            await axios.post(`/post/followArtist/${props.userWhoCreatedPost}?_method=PUT`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         setFollowing(!followState)
     }
     function deleteTrack(){
 
         (async () => {
-            await axios.post(`/post/deletePost/${props.id}?_method=DELETE`,{}, {headers: {Authentication: loggedInUserContext?.accesstoken}})
+            await axios.post(`/post/deletePost/${props.id}?_method=DELETE`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         window.location.reload()
     }

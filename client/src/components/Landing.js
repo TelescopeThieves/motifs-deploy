@@ -1,40 +1,22 @@
-import React, {useState, useContext } from 'react'
-import {Link, Redirect} from "react-router-dom";
+import React, { useContext } from 'react'
+import {Link } from "react-router-dom";
 import { UserContext } from '../Context/UserContext'
-import axios from 'axios'
 import Button from './Button';
 
 
 const Landing = () => {
-    const {loggedInUserContext, setLoggedInUserContext} = useContext(UserContext)
-    const [redirect, setRedirect] = useState(false)
+    const {login} = useContext(UserContext)
     const guest = {
         email: "guest@guest.com",
         password: "12341234"
     }
     const guestLogin = async () => {
 
-        const res = await axios.post('/auth/loginUser', guest)
-        
-        console.log(res.data)
-        
-        const {refreshtoken, accesstoken, userId} = res.data
-
-        if(refreshtoken){
-            setLoggedInUserContext({refreshtoken, accesstoken, userId})
-            setRedirect(true)
-        }else{
-            console.log('whoops')
-        }
-    }
-    if(redirect){
-        return (
-            <Redirect to='/feed' />
-        )
+        login(guest);
     }
     return(
         <section className="gradient landing">
-            <section className="">
+            <section>
                 
                 <section className='width100 padding'>
                     <h1 className="darkGrey bigFont">Welcome to Motifs!</h1>

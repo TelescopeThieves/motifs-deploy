@@ -6,18 +6,8 @@ const fs = require('fs')
 
 module.exports = {
     
-  // getIndex: async (req, res) => {
-  //     const hello = `Hello from the Motifs server!`
-  //   try {
-  //       res.json(hello)
-  //       // res.redirect('/')
-  //   } catch (err) {
-  //       console.log(err)
-  //   }
-  // },
   getAll: async (req, res) => {
     try {
-        // const user = await User.find({_id: req.user._id}) 
         const user = await User.find()
                 .sort({ createdAt: 'desc' })
                 .lean()
@@ -25,6 +15,14 @@ module.exports = {
                 .sort({ createdAt: 'desc' })
                 .lean()
         res.json({posts, user})
+        } catch (err) {
+              console.log(err)
+        }
+  },
+  getUserObj: async (req, res) => {
+    try {
+        const user = await User.find({_id: req.params.id})
+        res.json({user})
         } catch (err) {
               console.log(err)
         }
@@ -52,7 +50,6 @@ module.exports = {
           const artist = await User.find({ _id: req.params.id })
           const posts = await Post.find({ user: req.params.id })
           res.json({ posts, user, artist})
-          // await User.find({_id: req.user}) 
         } catch (err) {
       console.log(err)
     }
@@ -64,7 +61,6 @@ module.exports = {
                 const followedBy = await User.find({_id: follower})
                 return followedBy[0]
           }))
-          // res.render('followers', { followers: followers, user: user })
           res.json({ followers, user })          
         } catch (err) {
       console.log(err)
@@ -91,24 +87,22 @@ module.exports = {
           const post = await Post.find({ _id: req.params.id })
 
           const artist = await User.find({ _id: post[0].user })
-          // res.render('singlePost', { artist: artist, user: req.user, posts: post })
           res.json({artist, post, user})
         } catch (err) {
       console.log(err)
     }
   },
   getFeed: async (req, res) => {
+    const user = req.user  
     try {
-    // const user = await User.find({_id: req.user._id}) 
-    const user = req.user
     const posts = await Post.find()
           .sort({ createdAt: 'desc' })
           .lean()
-          res.json({posts, user})
-        } catch (err) {
-          console.log(err)
-        }
-      },
+    res.json({posts, user})
+    } catch (err) {
+        console.log(err)
+    }
+  },
   getFollowingFeed: async (req, res) => {
     try {
         const user = req.user

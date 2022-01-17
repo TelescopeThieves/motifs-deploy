@@ -20,6 +20,4 @@ router.put("/followArtist/:id", authJwt, postsController.followArtist);
 
 router.delete("/deletePost/:id", authJwt, postsController.deletePost);
 
-router.put('/addAccessToken',authJwt, postsController.addAccessToken);
-
 module.exports = router;

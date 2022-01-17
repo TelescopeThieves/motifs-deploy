@@ -8,14 +8,14 @@ const { ensureAuth } = require("../middleware/auth");
 
 //Post Routes - simplified for now
 
+// router.post('/protected', authController.protected)
+// router.post('/refresh_token', authController.refresh_token)
+
 router.post('/registerUser', authController.registerUser)
 
-router.post('/loginUser', authController.loginUser)
+router.post('/login', authController.loginUser)
 
-router.post('/protected', authController.protected)
+router.post('/logout/:id', authController.logoutUser)
 
-router.post('/logoutUser', authController.logoutUser)
-
-router.post('/refresh_token', authController.refresh_token)
 
 module.exports = router;

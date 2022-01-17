@@ -7,14 +7,12 @@ import { UserContext } from '../Context/UserContext'
 const PublicRoute = ({component: Component, restricted, ...rest}) => {
     
 
-    const {loggedInUserContext} = useContext(UserContext)
-
-    const userCheck = Object.keys(loggedInUserContext).length ? true : false
+    const {loggedInUser} = useContext(UserContext)
 
     return (
         <Route {...rest} render={props => (
-            userCheck && restricted ?
-            <Redirect to="/feed" />
+            loggedInUser.refreshtoken && restricted ?
+            <Redirect to="/" />
             : 
             <Component {...props} />
         )} />
