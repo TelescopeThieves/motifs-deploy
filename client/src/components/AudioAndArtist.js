@@ -18,12 +18,11 @@ const AudioAndArtist = ({
     cashLink,
     instagram,
     twitter,
-    liked,
+    bookmarked,
     followed,
     toggleBookmark,
     toggleFollow}) => {
-    
-    
+        
     return(
         <AaContainer>
  
@@ -75,7 +74,7 @@ const AudioAndArtist = ({
                     </audio>
                 </Three>
                 <Three align='flex-end' justify='flex-end' onClick={() => toggleBookmark(id)}>
-                    {liked ?
+                    {bookmarked ?
                     <Heart size={32} color={`#5F6FFF`}/>
                     :
                     <Heart size={32} />

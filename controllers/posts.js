@@ -5,10 +5,6 @@ const fs = require('fs')
 
 
 module.exports = {
-
-  addAccessToken: async (req, res) => {
-   await User.findOneAndUpdate({_id: req.user._id}, {accesstoken: req.accesstoken})
-  },
   
   createPost: async (req, res) => {
     try {
@@ -45,11 +41,11 @@ module.exports = {
             console.log(err)
           })
           // delete post from mongoDB
-          await Post.findOneAndDelete({ _id: String(postId)})
+          Post.findOneAndDelete({ _id: String(postId)})
           
           // delete the post from all user bookmarks
           const users = await User.find()
-          await users.forEach( async (user) => {
+          users.forEach( async (user) => {
             
             const bookmarks = user.bookmarks
             
@@ -57,7 +53,7 @@ module.exports = {
 
               delete bookmarks.postId
               
-              await User.findByIdAndUpdate({_id: user._id},{ bookmarks: bookmarks})
+              User.findByIdAndUpdate({_id: user._id},{ bookmarks: bookmarks})
             }
           })  
 
@@ -74,20 +70,23 @@ module.exports = {
   addArt: async (req, res) => {
 
   },
-  likePost: async (req, res) => {
+  bookmarkPost: async (req, res) => {
     const bookmarks = req.user.bookmarks
     const trackId = req.params.id
     
     if(bookmarks[trackId]){
-        bookmarks[trackId] = false
+      // unbookmark track
+        delete bookmarks[trackId]
         await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
       } else {
-        bookmarks[trackId] = true
+      // bookmark track
+        bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
         await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
     }
+    // update user's bookmark collection
     try {
         await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
-        res.json({msg: "bookmark updated"})
+        res.json({msg: bookmarks})
     } catch (error) {
         console.log(error)
     }
@@ -101,6 +100,7 @@ module.exports = {
     const artistFollowers = artist.followers
 
     if(following[artistId]){
+      // unfollow the artist
       delete following[artistId]
       delete artistFollowers[user._id]
       try {
@@ -113,8 +113,10 @@ module.exports = {
           console.log(error)
         }
       } else {
-        following[artistId] = true
-        artistFollowers[user._id] = true
+        const date = Date.now()
+        // follow the artist
+        following[artistId] = {following: true, followDate: date}
+        artistFollowers[user._id] = {followedBy: true, followedDate: date}
         try {
           // add artist to the list of artists the user follows
           await User.findOneAndUpdate({_id: user._id}, {following: following})

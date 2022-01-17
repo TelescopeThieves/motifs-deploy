@@ -3,7 +3,6 @@ import PostField from './PostField'
 import PostTextArea from './PostTextArea'
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
-import NavSide from './NavSide';
 import { UserContext } from '../Context/UserContext'
 const FormData = require('form-data');
 
@@ -78,7 +77,6 @@ const Upload = () => {
     
     return (
         <div className='window'>
-            <NavSide />    
             <div className="gradient landing">
                 
                 <div className="stream2 audioAndArt index radius">

@@ -32,7 +32,7 @@ const TrackButtons = (props) => {
     function toggleBookmark(){
 
         (async () => {
-            await axios.post(`/post/likePost/${props.id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
+            await axios.post(`/post/bookmarkPost/${props.id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
         })()
         toggle(!bookState)
     }
