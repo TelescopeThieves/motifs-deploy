@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams, Redirect, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import axios from 'axios'
 import AudioAndArt from './AudioAndArt'
@@ -10,7 +10,7 @@ import NavSide from './NavSide'
 
 const ProfileOfArtist = () => {
 
-const {loggedInUser, setLoggedInUser} = useContext(UserContext)
+const {loggedInUser} = useContext(UserContext)
 
 const [isLoading, setIsLoading] = useState(true)
 
@@ -24,7 +24,7 @@ const [feed, setFeed] = useState({
 
 const artistId = useParams()
 
-const {artist, posts, currentUser, following} = feed
+const {artist, posts, following} = feed
 
 useEffect(() => {
     ( async () => {
@@ -42,22 +42,13 @@ useEffect(() => {
         .catch(() => console.log('failed to fetch from url'))
         }
     )()
-    
-    
-
-    }, [artistId.id, artist._id]);
+    }, [artistId.id, artist._id, loggedInUser?.accesstoken]);
 
     if(isLoading){
         return (
             <></>
         )
     }
-
-    // if(loggedOut){
-    //     return (
-    //         <Redirect to='/' />
-    //     )
-    // }
 
     return(
         <div className='window'>

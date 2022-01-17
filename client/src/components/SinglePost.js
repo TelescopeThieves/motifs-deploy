@@ -33,9 +33,9 @@ const SinglePost = () => {
             .catch(() => console.log('failed to fetch from url'))
             }
         )()
-    }, [postId.id]);
+    }, [postId.id, loggedInUser?.accesstoken]);
 
-    const {artist, post, currentUser, isBookmarked, isFollowed} = singlePostValues
+    const {artist, post, isBookmarked, isFollowed} = singlePostValues
     
     if(!isLoading){
         return(

@@ -9,7 +9,7 @@ import NavSide from './NavSide'
 
 const Feed = () => {
 
-    const {loggedInUser, setLoggedInUser} = useContext(UserContext)
+    const {loggedInUser} = useContext(UserContext)
 
     const [isLoading, setIsLoading] = useState(true) 
     
@@ -64,9 +64,7 @@ const Feed = () => {
     }
 
     const getFeed = async (url) => {
-
         const res = await axios.get(url, {headers: {Authentication: loggedInUser?.accesstoken}})
-
         setFeed({
             posts: res.data.posts,
             user: res.data.user
@@ -79,7 +77,7 @@ const Feed = () => {
         getFeed(sort.url)
     }, [sort.url]);
 
-    const {posts} = feed
+    const {posts, user} = feed
     
     if(isLoading){
         return <div>is loading...</div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { UserContext } from '../Context/UserContext'
-import { Link, Redirect } from 'react-router-dom'
 import NavSide2 from './NavSide2'
 import AudioAndArtist from './AudioAndArtist'
 import Window from './styled/Window'
@@ -12,12 +11,12 @@ import FeedContainer from './styled/FeedContainer'
 
 const Feed2 = () => {
 
+    const [updateSent, setUpdateSent] = useState(false)
     
     const {loggedInUser} = useContext(UserContext)
     
     const [isLoading, setIsLoading] = useState(true)
     
-    const [updateSent, setUpdateSent] = useState(false)
     
     const [feed, setFeed] = useState({
         posts: [],
@@ -82,21 +81,18 @@ const Feed2 = () => {
         const res = await axios.post(`/post/likePost/${id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
         
         if(res){
-            
-            setUpdateSent(prev => !prev);
-
+            console.log(res.data.msg)
+            setUpdateSent(prev => !prev)
         }
-
     }
 
     const toggleFollow = async (id) => {
 
         const res = await axios.post(`/post/followArtist/${id}?_method=PUT`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
-
+        
         if(res){
-            
-            setUpdateSent(prev => !prev);
-
+            console.log(res.data.msg)
+            setUpdateSent(prev => !prev)
         }
     }
 
@@ -106,7 +102,6 @@ const Feed2 = () => {
     }, [sort.url, updateSent]);
 
     const {posts, user} = feed
-    console.log(updateSent)
     if(isLoading){
         return <></>
     }
@@ -132,10 +127,11 @@ const Feed2 = () => {
                                     cashLink={post.cashAppLink}
                                     instagram={post.instagram}
                                     twitter={post.twitter}
-                                    liked={user.bookmarks.includes(post._id)}
-                                    followed={user.following.includes(post.user)}
+                                    liked={user.bookmarks? user.bookmarks[post._id] : false }
+                                    followed={user.following ? user.following[post.user] : false}
                                     toggleBookmark={toggleBookmark}
                                     toggleFollow={toggleFollow}
+                                    setUpdateSent={setUpdateSent}
                         />
             })}
             </FeedContainer>

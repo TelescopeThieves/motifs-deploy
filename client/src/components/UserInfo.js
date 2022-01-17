@@ -20,7 +20,7 @@ const UserInfo = (props) => {
             .catch(() => console.log('failed to fetch from url'))
             }
         )()
-    }, [props.id]);
+    }, [props.id, loggedInUser?.accesstoken]);
 
     function toggleFollowButton(){
 

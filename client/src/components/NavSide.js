@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { Redirect } from 'react-router';
+import React, { useContext } from 'react'
 import { UserContext } from '../Context/UserContext'
 import { Link } from 'react-router-dom'
 import {ArrowSquareOut, MusicNotesSimple, Planet, GlobeHemisphereWest} from "phosphor-react";

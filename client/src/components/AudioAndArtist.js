@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Smiley, InstagramLogo, TwitterLogo, CurrencyCircleDollar, Heart } from "phosphor-react";
 import ButtonStyled from './ButtonStyled';
 import AaContainer from './styled/AaContainer';
@@ -8,17 +8,22 @@ import ProfileDiv from './styled/ProfileDiv';
 import Name from './styled/Name';
 import IconDiv from './styled/IconDiv';
 import Three from './styled/Three';
- /* 11.089rem */
-  /* 6.854rem */
-  /* 4.236rem */
-  /* 2.618rem */
-  /* 1.618rem */
-  /* 1rem */
-  /* 0.618rem */
-  /* 0.382rem */
 
-const AudioAndArtist = (props) => {
-
+const AudioAndArtist = ({
+    audioSrc,
+    id,
+    userId,
+    artist,
+    title,
+    cashLink,
+    instagram,
+    twitter,
+    liked,
+    followed,
+    toggleBookmark,
+    toggleFollow}) => {
+    
+    
     return(
         <AaContainer>
  
@@ -30,30 +35,30 @@ const AudioAndArtist = (props) => {
                 
                 <Name>
                     <span>
-                        {props.artist}
+                        {artist}
                     </span>
                 </Name>
 
-                {props.followed ?
-                <ButtonStyled bg='black' color='#fff' name={props.followed ? 'Following':'Follow'} onClick={() => props.toggleFollow(props.userId)}/>
+                {followed ?
+                <ButtonStyled bg='black' color='#fff' name={followed ? 'Following':'Follow'} onClick={() => toggleFollow(userId)}/>
                 :
-                <ButtonStyled name={props.followed ? 'Following':'Follow'} onClick={() => props.toggleFollow(props.userId)}/>
+                <ButtonStyled name={followed ? 'Following':'Follow'} onClick={() => toggleFollow(userId)}/>
                 }
 
                 <IconDiv>
-                {props.instagram && 
-                <a href={props.instagram} target='_blank' rel="noopener noreferrer">
+                {instagram && 
+                <a href={instagram} target='_blank' rel="noopener noreferrer">
                     <InstagramLogo size={32} /> 
                 </a>
                 }
                 
-                {props.twitter  &&
-                <a href={props.twitter} target='_blank' rel="noopener noreferrer">
+                {twitter  &&
+                <a href={twitter} target='_blank' rel="noopener noreferrer">
                     <TwitterLogo size={32}  />
                 </a> 
                 }
-                {props.cashLink && 
-                <a href={props.cashLink} target='_blank' rel="noopener noreferrer">
+                {cashLink && 
+                <a href={cashLink} target='_blank' rel="noopener noreferrer">
                     <CurrencyCircleDollar size={32}  /> 
                 </a>
                 }
@@ -62,15 +67,15 @@ const AudioAndArtist = (props) => {
             </ArtistDiv>
             <AudioDiv>
                 <Three>
-                    <span>{props.artist}{` - `}{props.title}</span>
+                    <span>{artist}{` - `}{title}</span>
                 </Three>
                 <Three align='center'>
                     <audio controls preload="none" type='audio/mpeg'>
-                        <source src={props.audioSrc}></source>
+                        <source src={audioSrc}></source>
                     </audio>
                 </Three>
-                <Three align='flex-end' justify='flex-end' onClick={() => props.toggleBookmark(props.id)}>
-                    {props.liked ?
+                <Three align='flex-end' justify='flex-end' onClick={() => toggleBookmark(id)}>
+                    {liked ?
                     <Heart size={32} color={`#5F6FFF`}/>
                     :
                     <Heart size={32} />

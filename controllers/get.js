@@ -93,16 +93,16 @@ module.exports = {
     }
   },
   getFeed: async (req, res) => {
-    try {
     const user = req.user  
+    try {
     const posts = await Post.find()
           .sort({ createdAt: 'desc' })
           .lean()
-          res.json({posts, user})
-        } catch (err) {
-          console.log(err)
-        }
-      },
+    res.json({posts, user})
+    } catch (err) {
+        console.log(err)
+    }
+  },
   getFollowingFeed: async (req, res) => {
     try {
         const user = req.user

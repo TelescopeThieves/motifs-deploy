@@ -1,6 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Router as ReachRouter, navigate } from '@reach/router'
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Landing from './components/Landing'
 import Signup from './components/Signup'
 import Feed from './components/Feed';

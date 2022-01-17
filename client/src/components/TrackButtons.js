@@ -3,7 +3,7 @@ import Button from './Button'
 import FormButton from './FormButton'
 import axios from 'axios'
 import ButtonAnchor from './ButtonAnchor'
-import { Share,User,CurrencyCircleDollar, Heart, UserPlus, UserMinus, Trash} from "phosphor-react";
+import { CurrencyCircleDollar, Heart, UserPlus, UserMinus, Trash} from "phosphor-react";
 import { UserContext } from '../Context/UserContext'
 
 
@@ -14,7 +14,7 @@ const TrackButtons = (props) => {
     const {loggedInUser} = useContext(UserContext)
     const canDelete = String(props.loggedInUserId) === String(props.userWhoCreatedPost)
     const [bookState, toggle] = useState()
-    const [followState, setFollowing] = useState()
+    const [followState, setFollowing] = useState(false)
 
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const TrackButtons = (props) => {
             .catch(() => console.log('failed to fetch from url'))
             }
         )()
-    }, [props.id]);
+    }, [props.id, loggedInUser?.accesstoken]);
 
     function toggleBookmark(){
 

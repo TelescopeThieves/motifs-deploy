@@ -1,34 +1,19 @@
-import React, {useState, useContext } from 'react'
-import {Link, Redirect} from "react-router-dom";
+import React, { useContext } from 'react'
+import {Link } from "react-router-dom";
 import { UserContext } from '../Context/UserContext'
-import axios from 'axios'
 import Button from './Button';
 
 
 const Landing = () => {
-    const {loggedInUser, setLoggedInUser, login} = useContext(UserContext)
+    const {login} = useContext(UserContext)
     const guest = {
         email: "guest@guest.com",
         password: "12341234"
     }
     const guestLogin = async () => {
 
-        // const res = await axios.post('/auth/login', guest)
-            
-        // const {refreshtoken, accesstoken, userId} = res.data
-
-        // if(refreshtoken){
-        //     setLoggedInUser({refreshtoken, accesstoken, userId})
-        // }else{
-        //     console.log('whoops')
-        // }
         login(guest);
     }
-    // if(redirect){
-    //     return (
-    //         <Redirect to='/feed' />
-    //     )
-    // }
     return(
         <section className="gradient landing">
             <section>
