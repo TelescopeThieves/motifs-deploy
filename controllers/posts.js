@@ -129,6 +129,30 @@ module.exports = {
         }
     }
   },
+  createPlaylist: async (req, res) => {
+    const { user } = req
+    let title = `Untitled ${(Math.floor(Math.random() * 99))}`;
+    let caption = 'Flava in ya ear'
+    
+    try {
+      const playlist = await Playlist.create({
+        title,
+        caption,
+        likes: 0,
+        createdBy: req.user._id
+      })
+      
+      console.log('playlist: ', playlist)
+      
+      // Add playlist id to user.playlists
+      const updatedUser = await User.findOneAndUpdate({_id: user.id}, {$addToSet: {playlists: playlist._id}}, {runValidators: true})
+      
+      console.log('new user: ', updatedUser)
+      
+    } catch (err) {
+      console.error(err)
+    }   
+  },
   deletePost: async (req, res) => {
     const track_id = req.params.id
     const post = await Post.find({_id: track_id})
@@ -143,28 +167,36 @@ module.exports = {
       console.log(err)
     }
   },
-  createPlaylist: async (req, res) => {
-    const { user } = req
-    let title = `Untitled ${(Math.floor(Math.random() * 99))}`;
-    let caption = 'Flava in ya ear'
-
+  deletePlaylist: async (req, res) => {
     try {
-      const playlist = await Playlist.create({
-        title,
-        caption,
-        likes: 0,
-        createdBy: req.user._id
-      })
-
-      console.log('playlist: ', playlist)
-
-      // Add playlist id to user.playlists
-      const updatedUser = await User.findOneAndUpdate({_id: user.id}, {$addToSet: {playlists: playlist._id}}, {runValidators: true})
-
-      console.log('new user: ', updatedUser)
-
-    } catch (err) {
-      console.error(err)
-    }   
+      await Playlist.findOneAndDelete({_id: req.params.id })
+      res.json({msg: `Playlist ${req.params.id} deleted`})
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  addToPlaylist: async (req, res) => {
+    try{
+      const trackToAdd = await Post.findById({_id: req.params.trackId})
+      await Playlist.findByIdAndUpdate(
+        {_id: req.params.playlistId}, 
+        {$addToSet: { tracks: trackToAdd }}
+      ) 
+      res.json({msg: `${trackToAdd} was added to playlist ${playlistId}`})
+    } catch (error){
+      console.log(error)
+    }
+  },
+  removeFromPlaylist: async (req, res) => {
+    try{
+      const trackToDelete = await Post.findById({_id: req.params.trackId})
+      await Playlist.findByIdAndUpdate(
+        {_id: req.params.playlistId}, 
+        {$pull: { tracks: trackToDelete }}
+      ) 
+      res.json({msg: `${trackToAdd} was removed from playlist ${playlistId}`})
+    } catch (error){
+      console.log(error)
+    }
   }
 }    

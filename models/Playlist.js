@@ -8,6 +8,10 @@ const PlaylistSchema = new mongoose.Schema({
   caption: {
     type: String    
   },
+  tracks: {
+    type: Array,
+    default: []
+  },
   likes: {
     type: Number,
     required: true,

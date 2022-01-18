@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 export default function PlaylistsPage () {
-    const [playlists, setPlaylists] = useState([{title: 'First Playlist'}])
+    const [playlists, setPlaylists] = useState([])
     const {loggedInUser} = useContext(UserContext)
 
     const getPlaylists = async () => {
@@ -15,14 +15,24 @@ export default function PlaylistsPage () {
             console.error(err)
         }
     }
-
+    const deletePlaylist = async (id) => {
+        await axios.post(`post/deletePlaylist/${id}?_method=DELETE`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
+    }
     useEffect(() => {
         getPlaylists()        
     }, [])
     return (
         <div>
             <h1>My Playlists</h1>
-            <section>{playlists.map(playlist => <article key={playlist._id}><h2>{playlist.title}</h2></article>)}</section>
+            <section>{playlists.map(playlist => 
+                    <article key={playlist._id}>
+                    <div>
+                    <span>{playlist.title}</span>
+                    <button onClick={() => deletePlaylist(playlist._id)}>{`Delete`}</button>
+                    </div>
+                    </article>
+                )}
+            </section>
         </div>
     )
 }
