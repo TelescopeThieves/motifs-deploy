@@ -1,5 +1,6 @@
 const Post = require('../models/Post')
 const User = require("../models/User");
+const Playlist = require("../models/Playlist");
 const cloudinary = require("../middleware/cloudinary");
 const fs = require('fs')
 
@@ -93,7 +94,7 @@ module.exports = {
     }
   },
   getFeed: async (req, res) => {
-    const user = req.user  
+    const user = req.user 
     try {
     const posts = await Post.find()
           .sort({ createdAt: 'desc' })
@@ -135,4 +136,16 @@ module.exports = {
       console.log(err)
     }
   },
+  getOwnPlaylists: async (req, res) => {
+    try {
+      console.log(req.user)
+      const userWithOwnPlaylists = await User.findById({_id: req.user._id}).sort({createdAt: 'desc'}).populate('playlists')
+
+      console.log(userWithOwnPlaylists)
+
+      res.json(userWithOwnPlaylists)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }    

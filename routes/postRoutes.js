@@ -20,4 +20,6 @@ router.put("/followArtist/:id", authJwt, postsController.followArtist);
 
 router.delete("/deletePost/:id", authJwt, postsController.deletePost);
 
+router.post("/playlist/create", authJwt, postsController.createPlaylist)
+
 module.exports = router;

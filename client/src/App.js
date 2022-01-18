@@ -9,6 +9,7 @@ import { UserProvider } from './Context/UserContext';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
+import PlaylistsPage from './components/PlaylistsPage';
 
 
 
@@ -33,6 +34,8 @@ const App = () => {
                         <PrivateRoute component={Upload} path='/upload' exact />
 
                         <PrivateRoute component={Followers} path='/followers/:id/:followedBy' exact />
+
+                        <PrivateRoute component={PlaylistsPage} path='/playlists' exact />
                         
                     </Switch>
 

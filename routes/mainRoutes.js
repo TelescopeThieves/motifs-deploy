@@ -16,5 +16,7 @@ router.get('/library', authJwt, getController.getLibrary)
 router.get('/loggedInUser', getController.getLoggedInUser)
 router.get('/getProfileOfArtist/:id', authJwt, getController.getProfileOfArtist)
 router.get('/getSinglePost/:id', authJwt, getController.getSinglePost)
+router.get('/playlists', authJwt, getController.getOwnPlaylists)
+
 
 module.exports = router

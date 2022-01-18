@@ -1,5 +1,6 @@
 const Post = require('../models/Post')
 const User = require("../models/User");
+const Playlist = require("../models/Playlist");
 const cloudinary = require("../middleware/cloudinary");
 const fs = require('fs')
 
@@ -141,5 +142,29 @@ module.exports = {
     } catch (err) {
       console.log(err)
     }
+  },
+  createPlaylist: async (req, res) => {
+    const { user } = req
+    let title = `Untitled ${(Math.floor(Math.random() * 99))}`;
+    let caption = 'Flava in ya ear'
+
+    try {
+      const playlist = await Playlist.create({
+        title,
+        caption,
+        likes: 0,
+        createdBy: req.user.id
+      })
+
+      console.log('playlist: ', playlist)
+
+      // Add playlist id to user.playlists
+      const updatedUser = await User.findOneAndUpdate({_id: user.id}, {$addToSet: {playlists: playlist._id}}, {runValidators: true})
+
+      console.log('new user: ', updatedUser)
+
+    } catch (err) {
+      console.error(err)
+    }   
   }
 }    
