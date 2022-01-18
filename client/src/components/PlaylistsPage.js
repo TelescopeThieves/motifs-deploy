@@ -9,8 +9,7 @@ export default function PlaylistsPage () {
 
     const getPlaylists = async () => {
         try {
-            const {data} = await axios.get('/playlists', {headers: {Authentication: loggedInUser?.accesstoken}})
-            console.log(data.playlists)
+            const {data} = await axios.get(`/playlists/${loggedInUser.userId}`, {headers: {Authentication: loggedInUser?.accesstoken}})
             setPlaylists(prev => [...data.playlists, ...prev])
         } catch (err) {
             console.error(err)
@@ -20,7 +19,6 @@ export default function PlaylistsPage () {
     useEffect(() => {
         getPlaylists()        
     }, [])
-
     return (
         <div>
             <h1>My Playlists</h1>

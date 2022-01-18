@@ -136,14 +136,11 @@ module.exports = {
       console.log(err)
     }
   },
-  getOwnPlaylists: async (req, res) => {
+  getPlaylists: async (req, res) => {
     try {
-      console.log(req.user)
-      const userWithOwnPlaylists = await User.findById({_id: req.user._id}).sort({createdAt: 'desc'}).populate('playlists')
-
-      console.log(userWithOwnPlaylists)
-
-      res.json(userWithOwnPlaylists)
+      const targetUserPlaylists = await User.findById({_id: req.params.id})
+      .populate({path:'playlists', options: { sort: { createdAt: -1 } }})
+      res.json(targetUserPlaylists)
     } catch (err) {
       console.error(err)
     }

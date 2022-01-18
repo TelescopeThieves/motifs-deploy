@@ -153,7 +153,7 @@ module.exports = {
         title,
         caption,
         likes: 0,
-        createdBy: req.user.id
+        createdBy: req.user._id
       })
 
       console.log('playlist: ', playlist)
