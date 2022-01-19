@@ -182,7 +182,7 @@ module.exports = {
         {_id: req.params.playlistId}, 
         {$addToSet: { tracks: trackToAdd }}
       ) 
-      res.json({msg: `${trackToAdd} was added to playlist ${playlistId}`})
+      res.json({msg: `${trackToAdd} was added to playlist ${req.params.playlistId}`})
     } catch (error){
       console.log(error)
     }
