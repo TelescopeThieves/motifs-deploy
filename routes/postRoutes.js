@@ -20,7 +20,7 @@ router.put("/addToPlaylist/:trackId/:playlistId", authJwt, postsController.addTo
 
 router.put("/followArtist/:id", authJwt, postsController.followArtist);
 
-router.put("/removeFromPlaylist/:trackid/playlistId", authJwt, postsController.removeFromPlaylist);
+router.put("/removeFromPlaylist/:trackId/:playlistId", authJwt, postsController.removeFromPlaylist);
 
 router.delete("/deletePost/:id", authJwt, postsController.deletePost);
 

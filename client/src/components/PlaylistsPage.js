@@ -16,13 +16,15 @@ export default function PlaylistsPage () {
         }
     }
     const deletePlaylist = (id) => {
-        axios.post(`post/deletePlaylist/${id}?_method=DELETE`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
+      axios.post(`post/deletePlaylist/${id}?_method=DELETE`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
     }
     const addATrackToPlaylist = async (trackId, playlistId) =>{
-        axios.post(`post/addToPlaylist/${trackId}/${playlistId}?_method=PUT`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
+        const res = await axios.post(`post/addToPlaylist/${trackId}/${playlistId}?_method=PUT`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
+        console.log(res.data.msg)
     }
     const removeATrackFromPlaylist = async (trackId, playlistId) =>{
-        axios.post(`post/removeFromPlaylist/${trackId}/${playlistId}?_method=PUT`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
+        const res = await axios.post(`post/removeFromPlaylist/${trackId}/${playlistId}?_method=PUT`, {}, {headers: {Authentication: loggedInUser?.accesstoken}})
+        console.log(res.data.msg)
     }
     useEffect(() => {
         getPlaylists()        

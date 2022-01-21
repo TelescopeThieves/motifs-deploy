@@ -139,15 +139,12 @@ module.exports = {
         title,
         caption,
         likes: 0,
-        createdBy: req.user._id
+        createdBy: req.user._id,
+        tracks: []
       })
       
-      console.log('playlist: ', playlist)
-      
       // Add playlist id to user.playlists
-      const updatedUser = await User.findOneAndUpdate({_id: user.id}, {$addToSet: {playlists: playlist._id}}, {runValidators: true})
-      
-      console.log('new user: ', updatedUser)
+      await User.findOneAndUpdate({_id: user.id}, {$addToSet: {playlists: playlist}}, {runValidators: true})
       
     } catch (err) {
       console.error(err)
@@ -176,25 +173,25 @@ module.exports = {
     }
   },
   addToPlaylist: async (req, res) => {
+    const trackToAdd = await Post.findById({_id: req.params.trackId})
     try{
-      const trackToAdd = await Post.findById({_id: req.params.trackId})
       await Playlist.findByIdAndUpdate(
         {_id: req.params.playlistId}, 
         {$addToSet: { tracks: trackToAdd }}
       ) 
-      res.json({msg: `${trackToAdd} was added to playlist ${req.params.playlistId}`})
+      res.json({msg: `${trackToAdd.title} was added to playlist ${req.params.playlistId}`})
     } catch (error){
       console.log(error)
     }
   },
   removeFromPlaylist: async (req, res) => {
+    const trackToDelete = await Post.findById({_id: req.params.trackId})
     try{
-      const trackToDelete = await Post.findById({_id: req.params.trackId})
       await Playlist.findByIdAndUpdate(
         {_id: req.params.playlistId}, 
         {$pull: { tracks: trackToDelete }}
       ) 
-      res.json({msg: `${trackToAdd} was removed from playlist ${playlistId}`})
+      res.json({msg: `${trackToDelete.title} was removed from playlist ${req.params.playlistId}`})
     } catch (error){
       console.log(error)
     }
