@@ -179,7 +179,7 @@ module.exports = {
         {_id: req.params.playlistId}, 
         {$addToSet: { tracks: trackToAdd }}
       ) 
-      res.json({msg: `${trackToAdd.title} was added to playlist ${req.params.playlistId}`})
+      res.json({msg: `${trackToAdd.title} by ${trackToAdd.artist} was added to playlist ${req.params.playlistId}`})
     } catch (error){
       console.log(error)
     }
@@ -191,7 +191,7 @@ module.exports = {
         {_id: req.params.playlistId}, 
         {$pull: { tracks: trackToDelete }}
       ) 
-      res.json({msg: `${trackToDelete.title} was removed from playlist ${req.params.playlistId}`})
+      res.json({msg: `${trackToDelete.title} by ${trackToDelete.artist} was removed from playlist ${req.params.playlistId}`})
     } catch (error){
       console.log(error)
     }

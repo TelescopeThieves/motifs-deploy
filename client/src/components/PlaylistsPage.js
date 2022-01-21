@@ -29,7 +29,6 @@ export default function PlaylistsPage () {
     useEffect(() => {
         getPlaylists()        
     }, [])
-    console.log(playlists)
     return (
         <div>
             <h1>My Playlists</h1>
