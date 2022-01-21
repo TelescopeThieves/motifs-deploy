@@ -46,7 +46,8 @@ const PostSchema = new mongoose.Schema({
   cloudinaryId: {
     type: String,
     required: true
-  }
+  },
+  mood: String
 });
 
 module.exports = mongoose.model("Post", PostSchema);
