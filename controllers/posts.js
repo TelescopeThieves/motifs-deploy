@@ -29,7 +29,8 @@ module.exports = {
         caption: req.body.caption || null,
         likes: 0,
         user: req.user._id,
-        art: req.body.art
+        art: req.body.art,
+        mood: req.body.mood
       })
     const cloudName = String(result.public_id)
     const postId = thisPost._id

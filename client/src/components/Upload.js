@@ -17,6 +17,7 @@ const Upload = () => {
         artist: '',
         title: '',
         caption: '',
+        mood: '',
         art: 'https://res.cloudinary.com/drs4pvb1e/image/upload/c_scale,h_600,w_600/v1629319772/Motifs/brett-jordan-aZVuQWEtX5Y-unsplash_bp7plp.jpg'
     })
     // const [uploadId, setUploadId] = useState('')
@@ -32,8 +33,6 @@ const Upload = () => {
             [name]: value
         })
     }
-
-
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0]
@@ -124,7 +123,15 @@ const Upload = () => {
                                     inputName='file'
                                     onChange={handleFileInputChange}
                         />
-    
+                        <div>
+                            <label htmlFor={'mood'}>Mood:</label>
+                            <select name={'mood'} value={values.mood} onChange={(e) => updateValue(e)}>
+                                <option value={''}>Pick a color</option>
+                                <option value={'Blue'}>Blue</option>
+                                <option value={'Red'}>Red</option>
+                                <option value={'Green'}>Green</option>
+                            </select>
+                        </div>
                         <div className="postField margin-top2">
                             <button type="submit" 
                                     className="trackBtn padding-top padding-bottom" 
