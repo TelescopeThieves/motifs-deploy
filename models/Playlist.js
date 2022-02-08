@@ -8,10 +8,7 @@ const PlaylistSchema = new mongoose.Schema({
   caption: {
     type: String    
   },
-  tracks: {
-    type: Array,
-    default: []
-  },
+  tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
   likes: {
     type: Number,
     required: true,

@@ -75,17 +75,17 @@ module.exports = {
     const bookmarks = req.user.bookmarks
     const trackId = req.params.id
     
-    if(bookmarks[trackId]){
-      // unbookmark track
-        delete bookmarks[trackId]
-        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
-      } else {
-      // bookmark track
-        bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
-        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
-    }
-    // update user's bookmark collection
     try {
+      if(bookmarks[trackId]){
+      // unbookmark track
+         delete bookmarks[trackId]
+         await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
+       } else {
+      // bookmark track
+         bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
+          await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
+      }
+    // update user's bookmark collection
         await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
         res.json({msg: bookmarks})
     } catch (error) {
@@ -173,11 +173,10 @@ module.exports = {
     }
   },
   addToPlaylist: async (req, res) => {
-    const trackToAdd = await Post.findById({_id: req.params.trackId})
     try{
       await Playlist.findByIdAndUpdate(
         {_id: req.params.playlistId}, 
-        {$addToSet: { tracks: trackToAdd }}
+        {$addToSet: { tracks: req.params.trackId }}
       ) 
       res.json({msg: `${trackToAdd.title} by ${trackToAdd.artist} was added to playlist ${req.params.playlistId}`})
     } catch (error){
@@ -185,11 +184,10 @@ module.exports = {
     }
   },
   removeFromPlaylist: async (req, res) => {
-    const trackToDelete = await Post.findById({_id: req.params.trackId})
     try{
       await Playlist.findByIdAndUpdate(
         {_id: req.params.playlistId}, 
-        {$pull: { tracks: trackToDelete }}
+        {$pull: { tracks: req.params.trackId }}
       ) 
       res.json({msg: `${trackToDelete.title} by ${trackToDelete.artist} was removed from playlist ${req.params.playlistId}`})
     } catch (error){
