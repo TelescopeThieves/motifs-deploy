@@ -141,6 +141,7 @@ const Signup = () => {
                                         inputName='instagram'
                                         value={values.instagram}
                                         onChange={(e) => updateValue(e)}
+                                        required={false}
                                             
                                 />
                                 <PostField  
@@ -152,6 +153,7 @@ const Signup = () => {
                                         inputName='twitter'
                                         value={values.twitter}
                                         onChange={(e) => updateValue(e)}
+                                        required={false}
                                             
                                 />
                             </div>
@@ -166,6 +168,7 @@ const Signup = () => {
                                     inputName='cashAppLink'
                                     value={values.cashAppLink}
                                     onChange={(e) => updateValue(e)}
+                                    required={false}
                                         
                             />
                             </div>

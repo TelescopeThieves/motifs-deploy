@@ -10,7 +10,8 @@ const PostField = (props) => {
                     name={props.inputName}
                     value={props.value}
                     onChange={props.onChange}
-                    required
+                    onBlur={props.onBlur}
+                    required={props.required ? props.required : true}
                     >
             </input>
         </div>

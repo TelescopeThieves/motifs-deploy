@@ -6,9 +6,18 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   profilePicture: String,
-  instagram: String,
-  twitter: String,
-  cashAppLink: String,
+  instagram: {
+    type: String,
+    default: ''
+  },
+  twitter: {
+    type: String,
+    default: ''
+  },
+  cashAppLink: {
+    type: String,
+    default: ''
+  },
   avatar: String,
   refreshtoken: String,
   bookmarks: {
