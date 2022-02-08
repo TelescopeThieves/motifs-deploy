@@ -34,9 +34,9 @@ const Login = () => {
         schemas[`${name}Schema`]
         .validate({ [name]: values[name] })
         .then((_) => setErrors((prevErrors) => ({ ...prevErrors, [name]: null })))
-        .catch(({ errors: err }) => {
+        .catch(({ errors }) => {
             if (errors[0].includes('/^(?=.*?[#?!@$ %^&*-])/')) {
-                errors[0] = 'password must contain one of the following symbols: #?!@$ %^&*'
+                errors[0] = 'password must contain at least one of the following symbols: #?!@$ %^&*'
             } else if (errors[0].includes('/^(?=.*?[A-Z])/')) {
                 errors[0] = 'password must contain a capital letter'
             }
