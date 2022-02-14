@@ -29,7 +29,7 @@ const Login = () => {
       //handle blur and validate
     function handleBlur(e) {
         const { name } = e.target;
-        console.log(name);
+        
         const schemas = { emailSchema, passwordSchema };
         schemas[`${name}Schema`]
         .validate({ [name]: values[name] })
