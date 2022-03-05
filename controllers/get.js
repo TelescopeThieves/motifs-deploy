@@ -21,11 +21,11 @@ module.exports = {
   },
   getUserObj: async (req, res) => {
     try {
-        const user = await User.find({_id: req.params.id})
-        res.json({user})
-        } catch (err) {
-              console.log(err)
-        }
+      const user = await User.find({_id: req.params.id})
+      res.json({user})
+    } catch (err) {
+      console.log(err)
+    }
   },
   getLoggedInUser: async (req, res) => {
         

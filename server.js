@@ -1,21 +1,21 @@
-// const mongoose = require('mongoose')
-// const passport = require('passport')
 const express = require('express')
 const MongoStore = require('connect-mongo')
 const session = require('express-session')
 const methodOverride = require("method-override");
 const logger = require('morgan')
 const flash = require('express-flash')
-const mainRoutes = require('./routes/mainRoutes')
-const postRoutes = require('./routes/postRoutes')
-const authRoutes = require('./routes/authRoutes')
+// const mainRoutes = require('./routes/mainRoutes')
+// const postRoutes = require('./routes/postRoutes')
+// const authRoutes = require('./routes/authRoutes')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const path = require('path')
+const API = require('./graphQL/API')
+const { graphqlHTTP }= require('express-graphql')
+const bodyParser = require('body-parser')
 
 require('dotenv').config({path: './config/.env'})
 
-// require("./config/passport")(passport);
 
 // connect to mongo DB
 const connectDB = require('./config/database')
@@ -53,19 +53,15 @@ app.use(
       store: MongoStore.create({ clientPromise }),
     })
   );
+  app.use(flash())
+// app.use(methodOverride("_method")); //Use forms for put / delete
+// app.use('/', mainRoutes)
+// app.use('/post', postRoutes) 
+// app.use('/auth', authRoutes)
 
-
-// Passport middleware
-// app.use(passport.initialize())
-// app.use(passport.session())
-
-//Use forms for put / delete
-app.use(methodOverride("_method"));
-
-app.use(flash())
-app.use('/', mainRoutes)
-app.use('/post', postRoutes) 
-app.use('/auth', authRoutes)
+// GraphQL
+app.use(bodyParser.json())
+app.use('/graphql', graphqlHTTP(API))
 
 
 if(process.env.NODE_ENV === 'production'){
