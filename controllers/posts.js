@@ -36,6 +36,7 @@ module.exports = {
     if(thisPost.ephemeral){
 
       setTimeout(async () => {
+        // create headstone
         DeadPost.create({
           artist: thisPost.artist,
           title: thisPost.title,
@@ -45,6 +46,7 @@ module.exports = {
           playCount: thisPost.bookmarkCount,
           creator: thisPost.creator
         })
+        // delete from cloudinary
         try {
           cloudinary.uploader.destroy(cloudName, {resource_type: 'video'}, (err,res) => {
             console.log(res)
@@ -54,22 +56,11 @@ module.exports = {
           await Post.findOneAndDelete({ _id: String(postId)})
               
           // delete the post from all user bookmarks
-          // const users = await User.find()
           const users = await User.find({bookmarks: {$in: [postId]}})
-          console.log("users with this song in bookmarks:", users)
-          users.forEach( async (user) => {
-                
-            const bookmarks = user.bookmarks
-                
-            if(bookmarks[postId]){
-    
-              delete bookmarks.postId
-                  
-              User.findByIdAndUpdate({_id: user._id},{ bookmarks: bookmarks})
-            }
-
-          })  
-    
+          users.forEach(async (user) => {
+            await User.findOneAndUpdate({_id: user._id}, {$pullAll:  { bookmarks: [postId] } });
+          });
+          
         } catch (err) {
           console.log(err)
         }
