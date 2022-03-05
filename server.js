@@ -1,12 +1,11 @@
-// const mongoose = require('mongoose')
-// const passport = require('passport')
+
 const express = require('express')
 const MongoStore = require('connect-mongo')
 const session = require('express-session')
 const methodOverride = require("method-override");
 const logger = require('morgan')
 const flash = require('express-flash')
-const mainRoutes = require('./routes/mainRoutes')
+const getRoutes = require('./routes/getRoutes')
 const postRoutes = require('./routes/postRoutes')
 const authRoutes = require('./routes/authRoutes')
 const cors = require('cors')
@@ -14,8 +13,6 @@ const cookieParser = require('cookie-parser')
 const path = require('path')
 
 require('dotenv').config({path: './config/.env'})
-
-// require("./config/passport")(passport);
 
 // connect to mongo DB
 const connectDB = require('./config/database')
@@ -63,7 +60,7 @@ app.use(
 app.use(methodOverride("_method"));
 
 app.use(flash())
-app.use('/', mainRoutes)
+app.use('/', getRoutes)
 app.use('/post', postRoutes) 
 app.use('/auth', authRoutes)
 

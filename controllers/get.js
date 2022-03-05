@@ -1,5 +1,6 @@
 const Post = require('../models/Post')
 const User = require("../models/User");
+const Playlist = require("../models/Playlist");
 const cloudinary = require("../middleware/cloudinary");
 const fs = require('fs')
 
@@ -72,28 +73,28 @@ module.exports = {
           const following = req.user.following
           const artistsUserFollows = []
           for(const artist in following){
-              const artistInFollowing = await User.findById({_id: artist})
-              artistsUserFollows.push(artistInFollowing)
+            const artistInFollowing = await User.findById({_id: artist})
+            artistsUserFollows.push(artistInFollowing)
           }
           res.json({ artistsUserFollows, user }) 
-        } catch (err) {
+      } catch (err) {
           console.log(err)
-        }
+      }
   },
   getSinglePost: async (req, res) => {
-      try {
-          const user = req.user
+    try {
+      const user = req.user
 
-          const post = await Post.find({ _id: req.params.id })
+      const post = await Post.find({ _id: req.params.id })
 
-          const artist = await User.find({ _id: post[0].user })
-          res.json({artist, post, user})
-        } catch (err) {
+      const artist = await User.find({ _id: post[0].user })
+      res.json({artist, post, user})
+    } catch (err) {
       console.log(err)
     }
   },
   getFeed: async (req, res) => {
-    const user = req.user  
+    const user = req.user 
     try {
     const posts = await Post.find()
           .sort({ createdAt: 'desc' })
@@ -135,4 +136,14 @@ module.exports = {
       console.log(err)
     }
   },
+  getPlaylists: async (req, res) => {
+    try {
+      const targetUserPlaylists = await User.findById({_id: req.params.id})
+      .populate({path:'playlists', options: { sort: { createdAt: -1 } }})
+      
+      res.json(targetUserPlaylists)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }    

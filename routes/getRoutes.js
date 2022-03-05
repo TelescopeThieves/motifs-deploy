@@ -1,4 +1,3 @@
-// const { ensureAuth, ensureGuest } = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
 const getController = require('../controllers/get')
@@ -16,5 +15,7 @@ router.get('/library', authJwt, getController.getLibrary)
 router.get('/loggedInUser', getController.getLoggedInUser)
 router.get('/getProfileOfArtist/:id', authJwt, getController.getProfileOfArtist)
 router.get('/getSinglePost/:id', authJwt, getController.getSinglePost)
+router.get('/playlists/:id', authJwt, getController.getPlaylists)
+
 
 module.exports = router

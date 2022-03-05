@@ -1,5 +1,6 @@
 const Post = require('../models/Post')
 const User = require("../models/User");
+const Playlist = require("../models/Playlist");
 const cloudinary = require("../middleware/cloudinary");
 const fs = require('fs')
 
@@ -74,17 +75,17 @@ module.exports = {
     const bookmarks = req.user.bookmarks
     const trackId = req.params.id
     
-    if(bookmarks[trackId]){
-      // unbookmark track
-        delete bookmarks[trackId]
-        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
-      } else {
-      // bookmark track
-        bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
-        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
-    }
-    // update user's bookmark collection
     try {
+      if(bookmarks[trackId]){
+      // unbookmark track
+         delete bookmarks[trackId]
+         await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
+       } else {
+      // bookmark track
+         bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
+          await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
+      }
+    // update user's bookmark collection
         await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
         res.json({msg: bookmarks})
     } catch (error) {
@@ -128,6 +129,27 @@ module.exports = {
         }
     }
   },
+  createPlaylist: async (req, res) => {
+    const { user } = req
+    let title = `Untitled ${(Math.floor(Math.random() * 99))}`;
+    let caption = 'Flava in ya ear'
+    
+    try {
+      const playlist = await Playlist.create({
+        title,
+        caption,
+        likes: 0,
+        createdBy: req.user._id,
+        tracks: []
+      })
+      
+      // Add playlist id to user.playlists
+      await User.findOneAndUpdate({_id: user.id}, {$addToSet: {playlists: playlist}}, {runValidators: true})
+      
+    } catch (err) {
+      console.error(err)
+    }   
+  },
   deletePost: async (req, res) => {
     const track_id = req.params.id
     const post = await Post.find({_id: track_id})
@@ -140,6 +162,36 @@ module.exports = {
       console.log('Deleted Post')
     } catch (err) {
       console.log(err)
+    }
+  },
+  deletePlaylist: async (req, res) => {
+    try {
+      await Playlist.findOneAndDelete({_id: req.params.id })
+      res.json({msg: `Playlist ${req.params.id} deleted`})
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  addToPlaylist: async (req, res) => {
+    try{
+      await Playlist.findByIdAndUpdate(
+        {_id: req.params.playlistId}, 
+        {$addToSet: { tracks: req.params.trackId }}
+      ) 
+      res.json({msg: `${trackToAdd.title} by ${trackToAdd.artist} was added to playlist ${req.params.playlistId}`})
+    } catch (error){
+      console.log(error)
+    }
+  },
+  removeFromPlaylist: async (req, res) => {
+    try{
+      await Playlist.findByIdAndUpdate(
+        {_id: req.params.playlistId}, 
+        {$pull: { tracks: req.params.trackId }}
+      ) 
+      res.json({msg: `${trackToDelete.title} by ${trackToDelete.artist} was removed from playlist ${req.params.playlistId}`})
+    } catch (error){
+      console.log(error)
     }
   }
 }    

@@ -7,7 +7,7 @@ import axios from 'axios'
 import {Redirect} from "react-router-dom";
 
 const Signup = () => {
-    const {setLoggedInUserContext} = useContext(UserContext)
+    const {setLoggedInUser} = useContext(UserContext)
     
     const [values, setValues] = useState({
         userName: '',
@@ -57,7 +57,7 @@ const Signup = () => {
     const {refreshtoken, accesstoken, userId} = res.data
 
     if(refreshtoken){
-        setLoggedInUserContext({refreshtoken, accesstoken, userId})
+        setLoggedInUser({refreshtoken, accesstoken, userId})
         setRedirect(true)
     }else{
         console.log('whoops')

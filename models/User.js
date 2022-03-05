@@ -22,7 +22,8 @@ const UserSchema = new mongoose.Schema({
   following: {
     type: Object,
     default: {}
-  }
+  },
+  playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }]
 });
 
 // Password hash middleware.
