@@ -1,29 +1,40 @@
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
-  userName: { type: String, unique: true },
-  email: { type: String, unique: true },
-  password: String,
-  profilePicture: String,
-  instagram: String,
-  twitter: String,
-  cashAppLink: String,
-  avatar: String,
-  refreshtoken: String,
-  bookmarks: {
-    type: Object,
-    default: {}
+const UserSchema = new mongoose.Schema(
+  {
+    userName: { type: String, unique: true, required: true },
+    email: { type: String, unique: true, required: true },
+    password: {type: String, required: true},
+    profilePicture: String,
+    instagram: String,
+    twitter: String,
+    cashAppLink: String,
+    avatar: String,
+    refreshtoken: String,
+    permanentUploadCount: {
+      type: Number, 
+      required: true
+    },
+    createdPosts: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post"
+    }],
+    bookmarks: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post"
+    }],
+    followers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }],
+    following: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }]
   },
-  followers: {
-    type: Object,
-    default: {}
-  },
-  following: {
-    type: Object,
-    default: {}
-  }
-});
+  {timestamps: true}
+);
 
 // Password hash middleware.
 
