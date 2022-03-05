@@ -76,9 +76,8 @@ const Feed2 = () => {
         setIsLoading(false)
     }
 
-    const toggleBookmark = async (id) => {
-        
-        const res = await axios.post(`/post/bookmarkPost/${id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
+    const toggleBookmark = async (id, toggle) => {
+        const res = await axios.post(`/post/bookmarkPost/${id}/${toggle}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
         
         if(res){
             console.log(res.data.msg)
@@ -127,7 +126,7 @@ const Feed2 = () => {
                                     cashLink={post.cashAppLink}
                                     instagram={post.instagram}
                                     twitter={post.twitter}
-                                    bookmarked={user?.bookmarks?.[post._id]?.bookmarked || false }
+                                    bookmarked={user?.bookmarks?.includes(post._id) || false}
                                     followed={user?.following?.[post.user]?.following || false}
                                     toggleBookmark={toggleBookmark}
                                     toggleFollow={toggleFollow}

@@ -22,7 +22,7 @@ const AudioAndArtist = ({
     followed,
     toggleBookmark,
     toggleFollow}) => {
-        
+    const bookmarkToggle = bookmarked ? "unBookmark" : "bookmark";    
     return(
         <AaContainer>
  
@@ -73,7 +73,7 @@ const AudioAndArtist = ({
                         <source src={audioSrc}></source>
                     </audio>
                 </Three>
-                <Three align='flex-end' justify='flex-end' onClick={() => toggleBookmark(id)}>
+                <Three align='flex-end' justify='flex-end' onClick={() => toggleBookmark(id, bookmarkToggle)}>
                     {bookmarked ?
                     <Heart size={32} color={`#5F6FFF`}/>
                     :

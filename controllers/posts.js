@@ -60,7 +60,7 @@ module.exports = {
           users.forEach(async (user) => {
             await User.findOneAndUpdate({_id: user._id}, {$pullAll:  { bookmarks: [postId] } });
           });
-          
+
         } catch (err) {
           console.log(err)
         }
@@ -96,14 +96,25 @@ module.exports = {
     // } catch (error) {
     //     console.log(error)
     // }
-    const trackId = req.params.id
+    // const trackId = req.params.id
     const userId = req.user._id
-    try {
-      await Post.findOneAndUpdate({ _id: trackId }, {$inc: { bookmarkCount: 1 }})
-      await User.findByIdAndUpdate({_id: userId}, {$addToSet: { bookmarks: trackId }})
-      res.json({msg: trackId})
-    } catch (error) {
-      console.log(error)
+    const {id, toggle} = req.params
+    if(toggle === 'bookmark'){
+      try {
+        await Post.findOneAndUpdate({ _id: id }, {$inc: { bookmarkCount: 1 }})
+        await User.findOneAndUpdate({_id: userId}, {$addToSet: { bookmarks: id }})
+        res.json({msg: `${id} has been bookmarked`})
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        await Post.findOneAndUpdate({ _id: id }, {$inc: { bookmarkCount: -1 }})
+        await User.findOneAndUpdate({_id: userId}, {$pullAll: { bookmarks: [id] }})
+        res.json({msg: `${id} has been unBookmarked`})
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   followArtist: async (req, res) => {
