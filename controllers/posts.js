@@ -77,26 +77,6 @@ module.exports = {
 
   // },
   bookmarkPost: async (req, res) => {
-    // const bookmarks = req.user.bookmarks
-    // const trackId = req.params.id
-    
-    // if(bookmarks[trackId]){
-    //   // unbookmark track
-    //     delete bookmarks[trackId]
-    //     await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
-    //   } else {
-    //   // bookmark track
-    //     bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
-    //     await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
-    // }
-    // // update user's bookmark collection
-    // try {
-    //     await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
-    //     res.json({msg: bookmarks})
-    // } catch (error) {
-    //     console.log(error)
-    // }
-    // const trackId = req.params.id
     const userId = req.user._id
     const {id, toggle} = req.params
     if(toggle === 'bookmark'){

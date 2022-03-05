@@ -80,8 +80,6 @@ const AudioAndArtist = ({
                     <Heart size={32} />
                     }
                 </Three>
-                
-                
             </AudioDiv>
 
         </AaContainer>

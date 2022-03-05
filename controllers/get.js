@@ -121,16 +121,15 @@ module.exports = {
   },
   getLibrary: async (req, res) => {
     try {
-      const user = req.user
-      const bookmarks = req.user.bookmarks
-      const posts = []
-      for(const bookmark in bookmarks){
-        if(bookmarks[bookmark]){
-          const bookmarkedPost = await Post.find({_id: bookmark})
-          posts.push(bookmarkedPost[0]) 
-        }
-      }
-      res.json({posts, user})
+      const user = await User.findById({_id: req.user._id}).populate({path:'bookmarks', options: { sort: { createdAt: -1 } }})
+      // for(const bookmark in bookmarks){
+      //   if(bookmarks[bookmark]){
+      //     const bookmarkedPost = await Post.find({_id: bookmark})
+      //     posts.push(bookmarkedPost[0]) 
+      //   }
+      // }
+      console.log("backend:", user)
+      res.json({posts: user.bookmarks, user})
     } catch (err) {
       console.log(err)
     }
