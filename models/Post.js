@@ -15,15 +15,12 @@ const PostSchema = new mongoose.Schema({
     require: true,
   },
   art: String,
-  caption: {
-    type: String,
-    required: true,
-  },
+  caption: String,
   likes: {
     type: Number,
     required: true,
   },
-  user: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
@@ -31,22 +28,12 @@ const PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  cashAppLink: {
-    type: String,
-    required: true,
-  },
-  twitter: {
-    type: String,
-    required: true,
-  },
-  instagram: {
-    type: String,
-    required: true,
-  },
   cloudinaryId: {
     type: String,
     required: true
   }
-});
+},
+{ timestamps: true }
+);
 
 module.exports = mongoose.model("Post", PostSchema);
