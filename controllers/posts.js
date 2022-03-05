@@ -1,14 +1,12 @@
-const Post = require('../models/Post')
+const Post = require("../models/Post");
 const User = require("../models/User");
+const DeadPost = require("../models/DeadPost");
 const cloudinary = require("../middleware/cloudinary");
-const fs = require('fs')
-
 
 module.exports = {
   
   createPost: async (req, res) => {
     try {
-    const user = req.user
     // upload audio to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {resource_type: 'video'},function(error, result) {
       if (error) {
@@ -21,74 +19,82 @@ module.exports = {
     const thisPost =  await Post.create({
         artist: req.body.artist,
         title: req.body.title,
-        cashAppLink: user.cashAppLink || null,
-        instagram: user.instagram || null,
-        twitter: user.twitter || null,
         audio: result.secure_url,
         cloudinaryId: result.public_id,
+        art: req.body.art || null,
         caption: req.body.caption || null,
-        likes: 0,
-        user: req.user._id,
-        art: req.body.art
+        bookmarkCount: 0,
+        playCount: 0,
+        ephemeral: true,  // hard coded for now
+        mood: 'blue', // hard coded for now
+        creator: req.user._id
       })
     const cloudName = String(result.public_id)
     const postId = thisPost._id
-    // Delete audio/post from cloudinary/mongo after 24 hours
-    setTimeout(async () =>{
-      try {
+    
+    // Delete audio/post from cloudinary/mongo and create DeadPost Headstone after 24 hours (86400000 milliseconds)
+    if(thisPost.ephemeral){
+
+      setTimeout(async () => {
+        // create headstone
+        DeadPost.create({
+          artist: thisPost.artist,
+          title: thisPost.title,
+          caption: thisPost.caption || null,
+          art: thisPost.art || null,
+          bookmarkCount: thisPost.bookmarkCount,
+          playCount: thisPost.bookmarkCount,
+          creator: thisPost.creator
+        })
+        // delete from cloudinary
+        try {
           cloudinary.uploader.destroy(cloudName, {resource_type: 'video'}, (err,res) => {
             console.log(res)
             console.log(err)
           })
           // delete post from mongoDB
-          Post.findOneAndDelete({ _id: String(postId)})
-          
-          // delete the post from all user bookmarks
-          const users = await User.find()
-          users.forEach( async (user) => {
-            
-            const bookmarks = user.bookmarks
-            
-            if(bookmarks[postId]){
-
-              delete bookmarks.postId
+          await Post.findOneAndDelete({ _id: String(postId)})
               
-              User.findByIdAndUpdate({_id: user._id},{ bookmarks: bookmarks})
-            }
-          })  
+          // delete the post from all user bookmarks
+          const users = await User.find({bookmarks: {$in: [postId]}})
+          users.forEach(async (user) => {
+            await User.findOneAndUpdate({_id: user._id}, {$pullAll:  { bookmarks: [postId] } });
+          });
 
-          } catch (err) {
+        } catch (err) {
           console.log(err)
         }
-    }, 864000)  
+      }, 30000)  
+    }
 
-        res.json({message: 'Upload successful!'})
-    }   catch (err) {
-        console.log(err)
+    res.json({message: 'Upload successful!'})
+
+    } catch (err) {
+      console.log(err)
     } 
   },
-  addArt: async (req, res) => {
+  // addArt: async (req, res) => {
 
-  },
+  // },
   bookmarkPost: async (req, res) => {
-    const bookmarks = req.user.bookmarks
-    const trackId = req.params.id
-    
-    if(bookmarks[trackId]){
-      // unbookmark track
-        delete bookmarks[trackId]
-        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: -1 }})
-      } else {
-      // bookmark track
-        bookmarks[trackId] = {bookmarked: true, bookmarkedOn: Date.now()}
-        await Post.findOneAndUpdate({ _id: trackId }, { $inc: { likes: 1 }})
-    }
-    // update user's bookmark collection
-    try {
-        await User.findByIdAndUpdate({_id: req.user._id}, {bookmarks: bookmarks})
-        res.json({msg: bookmarks})
-    } catch (error) {
+    const userId = req.user._id
+    const {id, toggle} = req.params
+    if(toggle === 'bookmark'){
+      try {
+        await Post.findOneAndUpdate({ _id: id }, {$inc: { bookmarkCount: 1 }})
+        await User.findOneAndUpdate({_id: userId}, {$addToSet: { bookmarks: id }})
+        res.json({msg: `${id} has been bookmarked`})
+      } catch (error) {
         console.log(error)
+      }
+    } else {
+      try {
+        await Post.findOneAndUpdate({ _id: id }, {$inc: { bookmarkCount: -1 }})
+        await User.findOneAndUpdate({_id: userId}, {$pullAll: { bookmarks: [id] }})
+        res.json({msg: `${id} has been unBookmarked`})
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   followArtist: async (req, res) => {

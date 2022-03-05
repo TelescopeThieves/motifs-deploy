@@ -68,7 +68,6 @@ const Feed2 = () => {
     const getFeed = async (url) => {
 
         const res = await axios.get(url, {headers: {Authentication: loggedInUser?.accesstoken}})
-
         setFeed({
             posts: res.data.posts,
             user: res.data.user
@@ -76,9 +75,8 @@ const Feed2 = () => {
         setIsLoading(false)
     }
 
-    const toggleBookmark = async (id) => {
-        
-        const res = await axios.post(`/post/bookmarkPost/${id}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
+    const toggleBookmark = async (id, toggle) => {
+        const res = await axios.post(`/post/bookmarkPost/${id}/${toggle}?_method=PUT`,{},{headers: {Authentication: loggedInUser?.accesstoken}})
         
         if(res){
             console.log(res.data.msg)
@@ -94,6 +92,16 @@ const Feed2 = () => {
             console.log(res.data.msg)
             setUpdateSent(prev => !prev)
         }
+    }
+
+    const isBookmarked = (user, postId) => {
+        let bookmarkStatus = null;
+        if(typeof user.bookmarks[0] === 'string'){ // if ObjectID
+            bookmarkStatus = user.bookmarks.includes(postId) 
+        } else { // if populated object
+            bookmarkStatus = user.bookmarks.some(bookmark => bookmark._id === postId)             
+        }
+        return bookmarkStatus
     }
 
     
@@ -127,7 +135,7 @@ const Feed2 = () => {
                                     cashLink={post.cashAppLink}
                                     instagram={post.instagram}
                                     twitter={post.twitter}
-                                    bookmarked={user?.bookmarks?.[post._id]?.bookmarked || false }
+                                    bookmarked={() => isBookmarked(user, post._id)}
                                     followed={user?.following?.[post.user]?.following || false}
                                     toggleBookmark={toggleBookmark}
                                     toggleFollow={toggleFollow}

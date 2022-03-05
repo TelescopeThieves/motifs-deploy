@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const PostSchema = new mongoose.Schema(
+const DeadPostSchema = new mongoose.Schema(
   {
     artist: {
       type: String,
@@ -9,14 +9,6 @@ const PostSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-    },
-    audio: {
-      type: String,
-      required: true,
-    },
-    cloudinaryId: {
-      type: String,
-      required: true
     },
     art: {
       type: String,
@@ -34,21 +26,12 @@ const PostSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    ephemeral: {
-      type: Boolean,
-      required: true
-    },
-    mood: {
-      type: String,
-      required: true
-    },
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    }
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Post", PostSchema);
-
+module.exports = mongoose.model("DeadPost", DeadPostSchema);
