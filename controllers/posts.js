@@ -83,7 +83,7 @@ module.exports = {
       try {
         await Post.findOneAndUpdate({ _id: postId }, {$inc: { bookmarkCount: 1 }})
         await User.findOneAndUpdate({_id: userId}, {$addToSet: { bookmarks: postId }})
-        res.json({msg: `${postId} has been bookmarked`})
+        res.json({msg: `${postId} has been bookmarked`});
       } catch (error) {
         console.log(error)
       }
@@ -91,7 +91,7 @@ module.exports = {
       try {
         await Post.findOneAndUpdate({ _id: postId }, {$inc: { bookmarkCount: -1 }})
         await User.findOneAndUpdate({_id: userId}, {$pullAll: { bookmarks: [postId] }})
-        res.json({msg: `${id} has been unBookmarked`})
+        res.json({msg: `${postId} has been unBookmarked`});
       } catch (error) {
         console.log(error)
       }
