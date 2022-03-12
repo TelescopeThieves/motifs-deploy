@@ -84,9 +84,9 @@ const Feed2 = () => {
         }
     }
 
-    const toggleFollow = async (id) => {
+    const toggleFollow = async (id, toggle) => {
 
-        const res = await axios.post(`/post/followArtist/${id}?_method=PUT`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
+        const res = await axios.post(`/post/followArtist/${id}/${toggle}?_method=PUT`,{}, {headers: {Authentication: loggedInUser?.accesstoken}})
         
         if(res){
             console.log(res.data.msg)
@@ -102,6 +102,10 @@ const Feed2 = () => {
             bookmarkStatus = user.bookmarks.some(bookmark => bookmark._id === postId)             
         }
         return bookmarkStatus
+    }
+
+    const isFollowed = (user, artist) => {
+        return user.following.includes(artist)
     }
 
     
@@ -125,18 +129,20 @@ const Feed2 = () => {
 
             <FeedContainer>
             {posts.map((post) =>{
+                const bookmarked = isBookmarked(user, post._id);
+                const followed = isFollowed(user, post.creator);
                 return <AudioAndArtist  
                                     key={post._id}
                                     audioSrc={post.audio} 
-                                    id={post._id}
-                                    userId={post.user}
+                                    postId={post._id}
+                                    creatorId={post.creator}
                                     artist={post.artist}
                                     title={post.title}
                                     cashLink={post.cashAppLink}
                                     instagram={post.instagram}
                                     twitter={post.twitter}
-                                    bookmarked={() => isBookmarked(user, post._id)}
-                                    followed={user?.following?.[post.user]?.following || false}
+                                    bookmarked={bookmarked}
+                                    followed={followed}
                                     toggleBookmark={toggleBookmark}
                                     toggleFollow={toggleFollow}
                                     setUpdateSent={setUpdateSent}

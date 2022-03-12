@@ -11,8 +11,8 @@ import Three from './styled/Three';
 
 const AudioAndArtist = ({
     audioSrc,
-    id,
-    userId,
+    postId,
+    creatorId,
     artist,
     title,
     cashLink,
@@ -22,7 +22,9 @@ const AudioAndArtist = ({
     followed,
     toggleBookmark,
     toggleFollow}) => {
-    const bookmarkToggle = bookmarked ? "unBookmark" : "bookmark";    
+    const bookmarkToggle = bookmarked ? "unBookmark" : "bookmark";
+    const followToggle = followed ? "unFollow" : "follow";
+    console.log("follow toggle =>", followToggle);
     return(
         <AaContainer>
  
@@ -39,9 +41,9 @@ const AudioAndArtist = ({
                 </Name>
 
                 {followed ?
-                <ButtonStyled bg='black' color='#fff' name={followed ? 'Following':'Follow'} onClick={() => toggleFollow(userId)}/>
+                <ButtonStyled bg='black' color='#fff' name={followed ? 'Following':'Follow'} onClick={() => toggleFollow(creatorId, followToggle)}/>
                 :
-                <ButtonStyled name={followed ? 'Following':'Follow'} onClick={() => toggleFollow(userId)}/>
+                <ButtonStyled name={followed ? 'Following':'Follow'} onClick={() => toggleFollow(creatorId, followToggle)}/>
                 }
 
                 <IconDiv>
@@ -73,7 +75,7 @@ const AudioAndArtist = ({
                         <source src={audioSrc}></source>
                     </audio>
                 </Three>
-                <Three align='flex-end' justify='flex-end' onClick={() => toggleBookmark(id, bookmarkToggle)}>
+                <Three align='flex-end' justify='flex-end' onClick={() => toggleBookmark(postId, bookmarkToggle)}>
                     {bookmarked ?
                     <Heart size={32} color={`#5F6FFF`}/>
                     :

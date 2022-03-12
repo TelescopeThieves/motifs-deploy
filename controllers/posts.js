@@ -78,19 +78,19 @@ module.exports = {
   // },
   bookmarkPost: async (req, res) => {
     const userId = req.user._id
-    const {id, toggle} = req.params
+    const {postId, toggle} = req.params
     if(toggle === 'bookmark'){
       try {
-        await Post.findOneAndUpdate({ _id: id }, {$inc: { bookmarkCount: 1 }})
-        await User.findOneAndUpdate({_id: userId}, {$addToSet: { bookmarks: id }})
-        res.json({msg: `${id} has been bookmarked`})
+        await Post.findOneAndUpdate({ _id: postId }, {$inc: { bookmarkCount: 1 }})
+        await User.findOneAndUpdate({_id: userId}, {$addToSet: { bookmarks: postId }})
+        res.json({msg: `${postId} has been bookmarked`})
       } catch (error) {
         console.log(error)
       }
     } else {
       try {
-        await Post.findOneAndUpdate({ _id: id }, {$inc: { bookmarkCount: -1 }})
-        await User.findOneAndUpdate({_id: userId}, {$pullAll: { bookmarks: [id] }})
+        await Post.findOneAndUpdate({ _id: postId }, {$inc: { bookmarkCount: -1 }})
+        await User.findOneAndUpdate({_id: userId}, {$pullAll: { bookmarks: [postId] }})
         res.json({msg: `${id} has been unBookmarked`})
       } catch (error) {
         console.log(error)
@@ -98,40 +98,25 @@ module.exports = {
     }
   },
   followArtist: async (req, res) => {
-
-    const user = req.user
-    const following = user.following
-    const artistId = req.params.id
-    const artist = await User.findOne({_id: artistId})
-    const artistFollowers = artist.followers
-
-    if(following[artistId]){
-      // unfollow the artist
-      delete following[artistId]
-      delete artistFollowers[user._id]
+    const {artistId, toggle} = req.params;
+    const userId = req.user._id;
+    
+    if(toggle === 'follow'){
       try {
-          // remove the artist from the list of artists the user followers
-          await User.findOneAndUpdate({_id: user._id}, {following: following})
-          // remove the user from the list of users that follow the artist
-          await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
-          res.json({msg: `${user.userName} is no longer following ${artist.userName}`})
-        } catch (error) {
-          console.log(error)
-        }
-      } else {
-        const date = Date.now()
-        // follow the artist
-        following[artistId] = {following: true, followDate: date}
-        artistFollowers[user._id] = {followedBy: true, followedDate: date}
-        try {
-          // add artist to the list of artists the user follows
-          await User.findOneAndUpdate({_id: user._id}, {following: following})
-          // add user to the list of users who follow the artist 
-          await User.findByIdAndUpdate({_id: artistId}, {followers: artistFollowers})
-          res.json({msg: `${user.userName} is now following ${artist.userName}`})
-        } catch (error) {
-          console.log(error)
-        }
+        await User.findOneAndUpdate({_id: userId}, {$addToSet: { following: artistId }});
+        await User.findOneAndUpdate({_id: artistId}, {$addToSet: { followers: userId }});
+        res.json({msg: `${artistId} is being followed by ${userId}`});
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await User.findOneAndUpdate({_id: userId}, {$pullAll: { following: [artistId] }});
+        await User.findOneAndUpdate({_id: artistId}, {$pullAll: { followers: [userId] }});
+        res.json({msg: `${artistId} has been unfollowed by ${userId}`});
+      } catch (error) {
+        console.log(error); 
+      }
     }
   },
   deletePost: async (req, res) => {
